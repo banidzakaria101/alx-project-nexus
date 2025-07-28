@@ -4,7 +4,6 @@ import { DataAPIClient } from "@datastax/astra-db-ts";
 let db: ReturnType<DataAPIClient["db"]>;
 
 if (typeof window === "undefined") {
-  // Only in Node.js (server-side)
   require("dotenv").config();
 
   const { ASTRA_DB_APPLICATION_TOKEN, ASTRA_DB_API_ENDPOINT } = process.env;

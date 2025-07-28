@@ -10,34 +10,41 @@ function MovieCard({
   index?: number;
   movie: Movie | SimilarMovie;
   similarity?: number;
-} ) {
+}) {
   return (
-    <Link key={movie._id} href={`/movie/${movie._id}`} className="">    
-      <div className="relative">
-        <ImageFallback 
-        className="min-w-64 max-w-64 h-96 object-cover rounded-lg shadow-lg" src={movie.Poster} alt={movie.Title} />
+    <Link
+      key={movie._id}
+      href={`/movie/${movie._id}`}
+      className="block transform transition duration-300 hover:scale-105 hover:shadow-2xl"
+    >
+      <div className="relative bg-[#111] rounded-xl overflow-hidden shadow-lg">
+        <ImageFallback
+          className="w-full h-96 object-cover rounded-xl"
+          src={movie.Poster}
+          alt={movie.Title}
+        />
 
         {similarity && (
-          <div className="absolute w-14 h-14 flex items-center fustify-center bottom-0 right-0 bg-blue-300 bg-opacity-90 p-2 rounded-full m-5 font-bold">
+          <div className="absolute w-14 h-14 flex items-center justify-center bottom-0 right-0 bg-blue-400 bg-opacity-90 p-2 rounded-full m-4 text-white text-sm font-bold shadow-md">
             {similarity}%
           </div>
         )}
 
-        {index &&(
-          <div className="absolute text-gray-100 top-32 -left-10 text-9xl font-extrabold drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"></div>
+        {index && (
+          <div className="absolute text-gray-100 top-32 -left-10 text-9xl font-extrabold drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+            {index}
+          </div>
         )}
       </div>
 
-      <div className="py-2">
-        <p className="text-lg font-semibold line-clamp-1 w-64">
+      <div className="pt-3">
+        <p className="text-white text-lg font-semibold truncate w-64">
           {movie.Title}
         </p>
-        <p className="text-gray-500 line-clamp-1">
-          {movie.Genre}
-        </p>
+        <p className="text-gray-400 truncate">{movie.Genre}</p>
       </div>
     </Link>
-  )
+  );
 }
 
 export default MovieCard;
