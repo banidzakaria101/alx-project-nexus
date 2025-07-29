@@ -18,7 +18,7 @@ export default function MovieDetailsPage({ movie, similarMovies }: MovieDetailsP
       <h1 className="text-3xl font-bold mb-6 text-center">{movie.Title} ({movie.Year})</h1>
 
       {/* Movie Details Section */}
-      <div className="flex flex-col md:flex-row items-center md:items-start gap-8 max-w-4xl mx-auto mb-12">
+      <div className="flex flex-col md:flex-row items-center md:items-start gap-8 max-w-4xl mx-auto mb-12 bg-gray-900 p-6 rounded-lg shadow-xl">
         <img
           src={movie.Poster}
           alt={movie.Title}
@@ -28,10 +28,24 @@ export default function MovieDetailsPage({ movie, similarMovies }: MovieDetailsP
           }}
         />
         <div className="flex-1 text-center md:text-left">
+          {/* Display Existing Details */}
           <p className="text-lg mb-2"><span className="font-semibold text-gray-400">Genre:</span> {movie.Genre}</p>
           <p className="mb-2"><span className="font-semibold text-gray-400">Director:</span> {movie.Director}</p>
           <p className="mb-2"><span className="font-semibold text-gray-400">Actors:</span> {movie.Actors}</p>
           <p className="text-gray-300 mt-4">{movie.Plot}</p>
+
+          {/* Display NEW Details */}
+          <div className="mt-6 border-t border-gray-700 pt-4">
+            <p className="mb-2"><span className="font-semibold text-gray-400">Country:</span> {movie.Country}</p>
+            <p className="mb-2"><span className="font-semibold text-gray-400">Duration:</span> {movie.Runtime}</p>
+            <p className="mb-2"><span className="font-semibold text-gray-400">Released:</span> {movie.Released}</p>
+            <p className="mb-2"><span className="font-semibold text-gray-400">IMDb Rating:</span> {movie.imdbRating}</p>
+            <p className="mb-2"><span className="font-semibold text-gray-400">IMDb Votes:</span> {movie.imdbVotes}</p>
+            {movie.Awards && <p className="mb-2"><span className="font-semibold text-gray-400">Awards:</span> {movie.Awards}</p>}
+            {movie.BoxOffice && <p className="mb-2"><span className="font-semibold text-gray-400">Box Office:</span> {movie.BoxOffice}</p>}
+            {movie.Language && <p className="mb-2"><span className="font-semibold text-gray-400">Language:</span> {movie.Language}</p>}
+            {movie.Metascore && <p className="mb-2"><span className="font-semibold text-gray-400">Metascore:</span> {movie.Metascore}</p>}
+          </div>
         </div>
       </div>
 
@@ -79,14 +93,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           sort: {
             $vectorize: recommendationTerm,
           },
-          limit: 11, 
+          limit: 11,
           includeSimilarity: true,
         }
       ).toArray() as SimilarMovie[];
 
       console.log(`Vector search returned ${similarMovies.length} initial results.`);
 
-      // Filter out the original movie and slice to 10
       similarMovies = similarMovies.filter(simMovie => simMovie._id !== movie!._id).slice(0, 10);
       console.log(`After filtering, similarMovies length: ${similarMovies.length}`);
 
