@@ -1,10 +1,11 @@
-// pages/index.tsx
 import { GetServerSideProps } from "next";
 import { Movie } from "@/types";
 import MovieCard from "@/components/MovieCard";
 import db from "@/lib/astra";
 import SearchInput from "@/components/SearchInput";
 import GenreFilter from "@/components/GenreFilter";
+import Link from "next/link"; 
+import { HeartIcon } from '@heroicons/react/24/solid';
 
 const MOVIES_PER_PAGE = 25;
 const MAX_COUNT_LIMIT = 1000;
@@ -25,20 +26,27 @@ export default function Home({ movies, page, totalPages }: Props) {
   return (
     <div className="min-h-screen bg-black text-white px-6 py-10">
       <h1 className="text-3xl font-bold mb-8 text-center">🎬 Movie Explorer</h1>
-      <SearchInput />
+      
+      <div className="flex items-center justify-between mb-8">
+        <SearchInput />
+        <Link href="/favorites" className="ml-4 p-3 rounded-full bg-red-600 text-white shadow-lg hover:bg-red-700 transition-colors duration-200"
+              aria-label="View Favorite Movies">
+            <HeartIcon className="h-7 w-7" />
+        </Link>
+      </div>
+
 
       <GenreFilter availableGenres={AVAILABLE_GENRES} />
 
-  
-      <div className="mx-auto max-w-screen-2xl px-14"> 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-y-8 justify-items-center">
+      <div className="mx-auto max-w-screen-2xl px-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-8 justify-items-center">
           {movies.map((movie) => (
             <MovieCard key={movie._id} movie={movie} />
           ))}
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center justify-center mt-12">
+      <div className="flex flex-wrap items-center justify-center gap-2 mt-12">
         {Array.from({ length: totalPages }).map((_, i) => {
           const pageNum = i + 1;
           const isActive = page === pageNum;
