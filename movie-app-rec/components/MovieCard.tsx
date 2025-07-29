@@ -1,12 +1,11 @@
-// components/MovieCard.tsx
-"use client"; // <--- ADD THIS LINE at the top
+"use client"; 
 
 import { Movie, SimilarMovie } from "@/types";
 import Link from "next/link";
 import ImageFallback from "./ImageFallback";
-import { useState, useEffect } from 'react'; // <--- Import useState and useEffect
-import { HeartIcon as HeartOutlineIcon } from "@heroicons/react/24/outline"; // <--- Import outline heart
-import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";   // <--- Import solid heart
+import { useState, useEffect } from 'react'; 
+import { HeartIcon as HeartOutlineIcon } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";
 
 function MovieCard({
   index,
@@ -18,31 +17,28 @@ function MovieCard({
   similarity?: number;
 }) {
   const movieDetailsHref = `/movie/${movie._id}?title=${encodeURIComponent(movie.Title)}`;
-  const [isFavorite, setIsFavorite] = useState(false); // State to track favorite status
+  const [isFavorite, setIsFavorite] = useState(false); 
 
-  // Effect to check local storage when component mounts
+  
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem('favoriteMovieIds') || '[]');
     setIsFavorite(favorites.includes(movie._id));
-  }, [movie._id]); // Re-run if movie ID changes
-
-  // Function to toggle favorite status
+  }, [movie._id]); 
+  // toggle favorite status
   const toggleFavorite = (e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent navigating to movie details page
-    e.stopPropagation(); // Stop event from bubbling up to the Link
-
+    e.preventDefault(); 
+    e.stopPropagation(); 
     let favorites = JSON.parse(localStorage.getItem('favoriteMovieIds') || '[]');
     if (isFavorite) {
-      // Remove from favorites
+      
       favorites = favorites.filter((id: string) => id !== movie._id);
     } else {
-      // Add to favorites
+      
       favorites.push(movie._id);
     }
     localStorage.setItem('favoriteMovieIds', JSON.stringify(favorites));
     setIsFavorite(!isFavorite); // Update local state
-    // You might want to dispatch an event or use a global state manager here
-    // if other components need to react immediately to favorite changes.
+ 
   };
 
   return (
@@ -51,7 +47,7 @@ function MovieCard({
       href={movieDetailsHref}
       className="block transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:border-gray-600
                  w-40 sm:w-44 md:w-48 mx-auto
-                 rounded-xl border border-transparent overflow-hidden relative" // Added 'relative' here for icon positioning
+                 rounded-xl border border-transparent overflow-hidden relative"
     >
       <div className="relative bg-[#111] rounded-xl overflow-hidden shadow-lg">
         <ImageFallback

@@ -1,19 +1,29 @@
-import Image, { ImageProps } from "next/image";
+import Image from "next/image";
 import { useState } from "react";
 
-const ImageFallback = ({ width = 256, height = 384, ...props }: ImageProps) => {
-  const [error, setError] = useState(false);
+interface ImageFallbackProps {
+  src: string;
+  alt: string;
+  className?: string;
+}
+
+function ImageFallback({ src, alt, className }: ImageFallbackProps) {
+  const [imgSrc, setImgSrc] = useState(src);
 
   return (
     <Image
-      {...props}
-      src={error ? "/placeholder.png" : props.src}
-      width={width}
-      height={height}
-      onError={() => setError(true)}
-      alt={props.alt}
+      src={imgSrc}
+      alt={alt}
+      width={300} 
+      height={450}
+      className={className}
+      onError={() => {
+        setImgSrc("/placeholder.jpeg");
+      }}
+      priority={false} 
+      unoptimized={true} 
     />
   );
-};
+}
 
 export default ImageFallback;
