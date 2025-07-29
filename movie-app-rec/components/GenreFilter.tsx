@@ -2,12 +2,17 @@
 
 import { FunnelIcon } from "@heroicons/react/24/solid";
 
+
 interface GenreFilterProps {
   isOpen: boolean;
-  onToggle: () => void; 
+  onToggle: () => void;
+  availableGenres: string[]; 
+  currentGenre?: string; 
 }
 
-function GenreFilter({ isOpen, onToggle }: GenreFilterProps) {
+function GenreFilter({ isOpen, onToggle, currentGenre }: GenreFilterProps) { 
+
+
   return (
     <div className="relative inline-block text-left">
       <button
@@ -16,11 +21,12 @@ function GenreFilter({ isOpen, onToggle }: GenreFilterProps) {
         id="genre-menu-button"
         aria-expanded={isOpen}
         aria-haspopup="true"
-        onClick={onToggle} 
+        onClick={onToggle}
       >
         <FunnelIcon className="h-5 w-5 mr-1" aria-hidden="true" />
         Filter
       </button>
+
     </div>
   );
 }

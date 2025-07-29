@@ -1,4 +1,3 @@
-// components/SearchInput.tsx
 "use client";
 
 import { useState } from 'react';
@@ -17,7 +16,7 @@ function SearchInput() {
 
   return (
     <form onSubmit={handleSubmit}
-      // Removed w-full, parent Navbar div will control width
+    
       className="flex items-center bg-gray-700 rounded-full py-2 px-4 shadow-inner"
     >
       <input

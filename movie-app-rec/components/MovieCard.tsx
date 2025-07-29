@@ -24,7 +24,7 @@ function MovieCard({
     const favorites = JSON.parse(localStorage.getItem('favoriteMovieIds') || '[]');
     setIsFavorite(favorites.includes(movie._id));
   }, [movie._id]); 
-  // toggle favorite status
+  
   const toggleFavorite = (e: React.MouseEvent) => {
     e.preventDefault(); 
     e.stopPropagation(); 
@@ -37,7 +37,7 @@ function MovieCard({
       favorites.push(movie._id);
     }
     localStorage.setItem('favoriteMovieIds', JSON.stringify(favorites));
-    setIsFavorite(!isFavorite); // Update local state
+    setIsFavorite(!isFavorite);
  
   };
 
