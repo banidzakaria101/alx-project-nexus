@@ -1,9 +1,9 @@
-
 import { GetServerSideProps } from "next";
-import db from "@/lib/astra"; 
+import db from "@/lib/astra";
 import { Movie } from "@/types";
 
-import MovieCard from "@/components/MovieCard"; 
+import MovieCard from "@/components/MovieCard";
+import SearchInput from "@/components/SearchInput";
 
 interface SearchTermPageProps {
   term: string;
@@ -13,11 +13,14 @@ interface SearchTermPageProps {
 // displaying search results
 export default function SearchTermPage({ term, similarMovies }: SearchTermPageProps) {
   return (
+
     <div className="flex flex-col items-center justify-center p-10 min-h-screen bg-black text-white">
       <h1 className="mb-6 text-xl text-white font-bold">
         Suggested results for: <span className="text-orange-400">{term}</span>
       </h1>
+      <SearchInput />
 
+      {/* Display similar movies */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
         {similarMovies.length > 0 ? (
           similarMovies.map((movie, index) => (
@@ -38,12 +41,12 @@ export default function SearchTermPage({ term, similarMovies }: SearchTermPagePr
 
 //  fetch data on each request to this page
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { term } = context.params as { term: string }; // Get the 'term' from the URL
+  const { term } = context.params as { term: string };
 
   let similarMovies: Movie[] = [];
 
   try {
-    const collection = db.collection<Movie>("movies");
+    const collection = db.collection<Movie>("mouvie_collection");
 
     // vectorize search
     similarMovies = await collection.find(

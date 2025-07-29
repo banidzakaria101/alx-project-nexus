@@ -1,3 +1,4 @@
+// components/MovieCard.tsx
 import { Movie, SimilarMovie } from "@/types";
 import Link from "next/link";
 import ImageFallback from "./ImageFallback";
@@ -11,10 +12,13 @@ function MovieCard({
   movie: Movie | SimilarMovie;
   similarity?: number;
 }) {
+  
+  const movieDetailsHref = `/movie/${movie._id}?title=${encodeURIComponent(movie.Title)}`;
+
   return (
     <Link
       key={movie._id}
-      href={`/movie/${movie._id}`}
+      href={movieDetailsHref} 
       className="block transform transition duration-300 hover:scale-105 hover:shadow-2xl"
     >
       <div className="relative bg-[#111] rounded-xl overflow-hidden shadow-lg">

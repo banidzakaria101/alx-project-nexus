@@ -38,7 +38,7 @@ export interface SimilarMovie extends Movie {
   $similarity: number;
 }
 
-export interface MovieSearchResult {
+export interface SimilarMovies {
   movies: Movie[];
   totalResults: number;
   currentPage: number;

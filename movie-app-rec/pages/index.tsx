@@ -1,3 +1,4 @@
+// pages/index.tsx
 import { GetServerSideProps } from "next";
 import { Movie } from "@/types";
 import MovieCard from "@/components/MovieCard";
@@ -54,17 +55,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const skip = (page - 1) * MOVIES_PER_PAGE;
 
   try {
-    const collection = db.collection("movies");
+    const collection = db.collection<Movie>("mouvie_collection");
+
+    const query = {
+      $vector: { $exists: true },
+    };
 
     const results = await collection
-      .find({}, {
+      .find(query, {
         sort: { Title: 1 },
         limit: MOVIES_PER_PAGE,
       })
       .skip(skip)
       .toArray();
 
-    const totalCount = await collection.countDocuments({}, MAX_COUNT_LIMIT);
+    const totalCount = await collection.countDocuments(query, MAX_COUNT_LIMIT);
     const totalPages = Math.ceil(totalCount / MOVIES_PER_PAGE);
 
     return {
@@ -77,7 +82,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   } catch (error) {
     console.error("❌ Error fetching movies:", error);
     return {
-      notFound: true,
+      props: {
+        movies: [],
+        page,
+        totalPages: 0,
+      },
     };
   }
 };
