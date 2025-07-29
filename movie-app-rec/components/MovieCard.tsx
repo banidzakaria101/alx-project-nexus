@@ -1,44 +1,55 @@
-"use client"; 
+"use client";
 
 import { Movie, SimilarMovie } from "@/types";
 import Link from "next/link";
 import ImageFallback from "./ImageFallback";
-import { useState, useEffect } from 'react'; 
+import { useState, useEffect } from 'react';
 import { HeartIcon as HeartOutlineIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";
+
+interface MovieCardProps {
+  index?: number;
+  movie: Movie | SimilarMovie;
+  similarity?: number;
+  
+  onFavoriteChange?: (movieId: string, isNowFavorite: boolean) => void;
+}
 
 function MovieCard({
   index,
   movie,
   similarity,
-}: {
-  index?: number;
-  movie: Movie | SimilarMovie;
-  similarity?: number;
-}) {
+  onFavoriteChange
+}: MovieCardProps) {
   const movieDetailsHref = `/movie/${movie._id}?title=${encodeURIComponent(movie.Title)}`;
-  const [isFavorite, setIsFavorite] = useState(false); 
+  const [isFavorite, setIsFavorite] = useState(false);
 
-  
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem('favoriteMovieIds') || '[]');
     setIsFavorite(favorites.includes(movie._id));
-  }, [movie._id]); 
-  
+  }, [movie._id]);
+
   const toggleFavorite = (e: React.MouseEvent) => {
-    e.preventDefault(); 
-    e.stopPropagation(); 
+    e.preventDefault();
+    e.stopPropagation();
+
     let favorites = JSON.parse(localStorage.getItem('favoriteMovieIds') || '[]');
-    if (isFavorite) {
-      
-      favorites = favorites.filter((id: string) => id !== movie._id);
-    } else {
+    const newIsFavoriteStatus = !isFavorite; 
+
+    if (newIsFavoriteStatus) {
       
       favorites.push(movie._id);
+    } else {
+      
+      favorites = favorites.filter((id: string) => id !== movie._id);
     }
     localStorage.setItem('favoriteMovieIds', JSON.stringify(favorites));
-    setIsFavorite(!isFavorite);
- 
+    setIsFavorite(newIsFavoriteStatus); 
+
+    
+    if (onFavoriteChange) {
+      onFavoriteChange(movie._id, newIsFavoriteStatus);
+    }
   };
 
   return (
@@ -56,7 +67,6 @@ function MovieCard({
           alt={movie.Title}
         />
 
-        {/* Favorite Icon */}
         <button
           onClick={toggleFavorite}
           className="absolute top-2 right-2 bg-black bg-opacity-50 rounded-full p-1.5 cursor-pointer

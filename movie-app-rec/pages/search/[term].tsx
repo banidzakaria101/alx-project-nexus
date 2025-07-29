@@ -1,4 +1,3 @@
-// pages/search/[term].tsx
 import { GetServerSideProps } from "next";
 import db from "@/lib/astra";
 import { Movie, SimilarMovie } from "@/types";
@@ -7,7 +6,7 @@ import MovieCard from "@/components/MovieCard";
 interface SearchTermPageProps {
   term: string;
   similarMovies: Movie[];
-  currentGenre?: string; // <-- Add this prop
+  currentGenre?: string; 
 }
 
 export default function SearchTermPage({ term, similarMovies }: SearchTermPageProps) {
@@ -41,10 +40,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { term } = context.params as { term: string };
 
   let similarMovies: Movie[] = [];
-  let currentGenre: string | undefined = undefined; // Initialize
+  let currentGenre: string | undefined = undefined; 
 
-  // Check if the term is one of your predefined genres for highlighting
-  const AVAILABLE_GENRES = [ // Re-define here or import from a constants file
+  
+  const AVAILABLE_GENRES = [ 
     "Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Drama",
     "Family", "Fantasy", "History", "Horror", "Music", "Musical", "Mystery",
     "Romance", "Sci-Fi", "Sport", "Thriller", "War", "Western",
@@ -83,7 +82,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       term,
       similarMovies,
-      currentGenre, // <-- Pass currentGenre
+      currentGenre, 
     },
   };
 };
