@@ -4,9 +4,16 @@ import { Movie } from "@/types";
 import MovieCard from "@/components/MovieCard";
 import db from "@/lib/astra";
 import SearchInput from "@/components/SearchInput";
+import GenreFilter from "@/components/GenreFilter";
 
 const MOVIES_PER_PAGE = 12;
 const MAX_COUNT_LIMIT = 1000;
+
+const AVAILABLE_GENRES = [
+  "Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Drama",
+  "Family", "Fantasy", "History", "Horror", "Music", "Musical", "Mystery",
+  "Romance", "Sci-Fi", "Sport", "Thriller", "War", "Western",
+];
 
 type Props = {
   movies: Movie[];
@@ -20,6 +27,9 @@ export default function Home({ movies, page, totalPages }: Props) {
       <h1 className="text-3xl font-bold mb-8 text-center">🎬 Movie Explorer</h1>
       <SearchInput />
 
+      {/* GenreFilter component */}
+      <GenreFilter availableGenres={AVAILABLE_GENRES} />
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
         {movies.map((movie) => (
           <MovieCard key={movie._id} movie={movie} />
@@ -31,10 +41,13 @@ export default function Home({ movies, page, totalPages }: Props) {
           const pageNum = i + 1;
           const isActive = page === pageNum;
 
+          // Revert pagination links to only handle the page parameter
+          const paginationHref = `/?page=${pageNum}`;
+
           return (
             <a
               key={pageNum}
-              href={`/?page=${pageNum}`}
+              href={paginationHref}
               className={`w-10 h-10 flex items-center justify-center rounded-full border transition-all duration-300 ${
                 isActive
                   ? "bg-blue-500 text-white border-blue-500 scale-110 shadow-lg"
@@ -52,12 +65,14 @@ export default function Home({ movies, page, totalPages }: Props) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const page = parseInt((context.query.page as string) || "1");
+  
   const skip = (page - 1) * MOVIES_PER_PAGE;
 
   try {
     const collection = db.collection<Movie>("mouvie_collection");
 
-    const query = {
+
+    const query: Record<string, any> = {
       $vector: { $exists: true },
     };
 
@@ -77,10 +92,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         movies: results,
         page,
         totalPages,
+        
       },
     };
   } catch (error) {
-    console.error("❌ Error fetching movies:", error);
+    console.error("❌ Error fetching movies for homepage:", error);
     return {
       props: {
         movies: [],
