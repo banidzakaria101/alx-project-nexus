@@ -6,7 +6,7 @@ import db from "@/lib/astra";
 import SearchInput from "@/components/SearchInput";
 import GenreFilter from "@/components/GenreFilter";
 
-const MOVIES_PER_PAGE = 12;
+const MOVIES_PER_PAGE = 25;
 const MAX_COUNT_LIMIT = 1000;
 
 const AVAILABLE_GENRES = [
@@ -27,21 +27,22 @@ export default function Home({ movies, page, totalPages }: Props) {
       <h1 className="text-3xl font-bold mb-8 text-center">🎬 Movie Explorer</h1>
       <SearchInput />
 
-      {/* GenreFilter component */}
       <GenreFilter availableGenres={AVAILABLE_GENRES} />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
-        {movies.map((movie) => (
-          <MovieCard key={movie._id} movie={movie} />
-        ))}
+  
+      <div className="mx-auto max-w-screen-2xl px-14"> 
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-y-8 justify-items-center">
+          {movies.map((movie) => (
+            <MovieCard key={movie._id} movie={movie} />
+          ))}
+        </div>
       </div>
 
-      <div className="flex flex-wrap items-center justify-center gap-2 mt-12">
+      <div className="flex flex-wrap items-center justify-center mt-12">
         {Array.from({ length: totalPages }).map((_, i) => {
           const pageNum = i + 1;
           const isActive = page === pageNum;
 
-          // Revert pagination links to only handle the page parameter
           const paginationHref = `/?page=${pageNum}`;
 
           return (
@@ -65,12 +66,10 @@ export default function Home({ movies, page, totalPages }: Props) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const page = parseInt((context.query.page as string) || "1");
-  
   const skip = (page - 1) * MOVIES_PER_PAGE;
 
   try {
     const collection = db.collection<Movie>("mouvie_collection");
-
 
     const query: Record<string, any> = {
       $vector: { $exists: true },
@@ -92,7 +91,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         movies: results,
         page,
         totalPages,
-        
       },
     };
   } catch (error) {
