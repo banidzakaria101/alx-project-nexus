@@ -1,7 +1,10 @@
+"use client";
+
 import { GetServerSideProps } from "next";
 import db from "@/lib/astra";
 import { Movie, SimilarMovie } from "@/types";
 import MovieCard from "@/components/MovieCard";
+import FavoriteButton from "@/components/FavoriteButton";
 
 interface MovieDetailsPageProps {
   movie: Movie | null;
@@ -10,31 +13,49 @@ interface MovieDetailsPageProps {
 
 export default function MovieDetailsPage({ movie, similarMovies }: MovieDetailsPageProps) {
   if (!movie) {
-    return <div className="text-white text-center p-10">Movie not found.</div>;
+    return <div className="text-white text-center p-10 flex items-center justify-center">Movie not found.</div>;
   }
 
+  const handleFavoriteChange = (movieId: string, isNowFavorite: boolean) => {
+    console.log(`Movie ${movieId} is now ${isNowFavorite ? 'favorited' : 'unfavorited'} via FavoriteButton.`);
+  };
+
   return (
-    <div className="min-h-screen bg-black text-white p-10">
+    <div className="min-h-screen bg-black text-white px-6 py-10">
       <h1 className="text-3xl font-bold mb-6 text-center">{movie.Title} ({movie.Year})</h1>
 
       {/* Movie Details Section */}
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8 max-w-4xl mx-auto mb-12 bg-gray-900 p-6 rounded-lg shadow-xl">
-        <img
-          src={movie.Poster}
-          alt={movie.Title}
-          className="w-64 h-auto object-cover rounded-lg shadow-lg"
-          onError={(e) => {
-            e.currentTarget.src = "/placeholder-movie.png";
-          }}
-        />
+        
+        <div className="relative w-64 h-auto rounded-lg shadow-lg overflow-hidden"> 
+          <img
+            src={movie.Poster}
+            alt={movie.Title}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              e.currentTarget.src = "/placeholder.jpeg";
+            }}
+          />
+          {movie && (
+            <FavoriteButton
+              movieId={movie._id}
+              onFavoriteChange={handleFavoriteChange}
+              variant="card" 
+            
+              className="top-4 right-4"
+              iconSize="h-7 w-7" 
+              padding="p-2" 
+            />
+          )}
+        </div>
+
+        {/* Right side: Text Details */}
         <div className="flex-1 text-center md:text-left">
-          {/* Display Existing Details */}
           <p className="text-lg mb-2"><span className="font-semibold text-gray-400">Genre:</span> {movie.Genre}</p>
           <p className="mb-2"><span className="font-semibold text-gray-400">Director:</span> {movie.Director}</p>
           <p className="mb-2"><span className="font-semibold text-gray-400">Actors:</span> {movie.Actors}</p>
           <p className="text-gray-300 mt-4">{movie.Plot}</p>
 
-          {/* Display NEW Details */}
           <div className="mt-6 border-t border-gray-700 pt-4">
             <p className="mb-2"><span className="font-semibold text-gray-400">Country:</span> {movie.Country}</p>
             <p className="mb-2"><span className="font-semibold text-gray-400">Duration:</span> {movie.Runtime}</p>
@@ -49,10 +70,11 @@ export default function MovieDetailsPage({ movie, similarMovies }: MovieDetailsP
         </div>
       </div>
 
+
       {/* Similar Movies Section */}
       <h2 className="text-2xl font-bold mb-6 text-center">Suggested Movies</h2>
       {similarMovies.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center max-w-6xl mx-auto">
           {similarMovies.map((simMovie) => (
             <MovieCard key={simMovie._id} movie={simMovie} />
           ))}

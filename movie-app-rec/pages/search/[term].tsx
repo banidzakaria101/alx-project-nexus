@@ -11,7 +11,7 @@ interface SearchTermPageProps {
 
 export default function SearchTermPage({ term, similarMovies }: SearchTermPageProps) {
   return (
-    <div className="min-h-screen bg-black text-white px-10 py-10">
+    <div className="min-h-screen bg-black text-white px-14 py-10">
       <h1 className="text-3xl font-bold mb-8 text-center">
         Suggested results for: <span className="text-orange-400">{term}</span>
       </h1>
@@ -22,7 +22,7 @@ export default function SearchTermPage({ term, similarMovies }: SearchTermPagePr
             similarMovies.map((movie, index) => (
               <div key={movie._id} className="relative">
                
-                <MovieCard movie={movie} index={index} /> {/* Pass index to MovieCard */}
+                <MovieCard movie={movie} index={index} />
               </div>
             ))
           ) : (

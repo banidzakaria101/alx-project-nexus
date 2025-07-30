@@ -82,7 +82,7 @@ function FavoritesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white px-6 py-10">
+    <div className="min-h-screen bg-black text-white px-14 py-10 ">
       <div className="flex items-center mb-8">
         <Link href="/" className="text-gray-400 hover:text-white mr-4">
           <ArrowLeftIcon className="h-8 w-8" />
