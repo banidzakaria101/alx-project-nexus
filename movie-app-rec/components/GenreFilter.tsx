@@ -12,7 +12,6 @@ interface GenreFilterProps {
 
 function GenreFilter({ isOpen, onToggle, currentGenre }: GenreFilterProps) { 
 
-
   return (
     <div className="relative inline-block text-left">
       <button

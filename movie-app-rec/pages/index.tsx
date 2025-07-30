@@ -14,7 +14,7 @@ type Props = {
 
 export default function Home({ movies, page, totalPages }: Props) {
   return (
-    <div className="min-h-screen bg-black text-white px-6 py-10">
+    <div className="min-h-screen bg-black text-white px-10 py-10">
       <h1 className="text-3xl font-bold mb-8 text-center sr-only">🎬 Movie Explorer</h1>
 
       <div className="mx-auto max-w-screen-2xl px-4">

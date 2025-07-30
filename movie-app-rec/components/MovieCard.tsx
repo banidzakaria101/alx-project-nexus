@@ -11,7 +11,6 @@ interface MovieCardProps {
   index?: number;
   movie: Movie | SimilarMovie;
   similarity?: number;
-  
   onFavoriteChange?: (movieId: string, isNowFavorite: boolean) => void;
 }
 
@@ -37,16 +36,13 @@ function MovieCard({
     const newIsFavoriteStatus = !isFavorite; 
 
     if (newIsFavoriteStatus) {
-      
       favorites.push(movie._id);
     } else {
-      
       favorites = favorites.filter((id: string) => id !== movie._id);
     }
     localStorage.setItem('favoriteMovieIds', JSON.stringify(favorites));
     setIsFavorite(newIsFavoriteStatus); 
 
-    
     if (onFavoriteChange) {
       onFavoriteChange(movie._id, newIsFavoriteStatus);
     }
@@ -56,20 +52,23 @@ function MovieCard({
     <Link
       key={movie._id}
       href={movieDetailsHref}
-      className="block transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:border-gray-600
-                 w-40 sm:w-44 md:w-48 mx-auto
-                 rounded-xl border border-transparent overflow-hidden relative"
+      className="group transform transition duration-300 hover:scale-105
+                 bg-gray-950 rounded-lg shadow-lg overflow-hidden relative
+                 flex flex-col h-full w-full max-w-[180px] sm:max-w-[200px]" 
     >
-      <div className="relative bg-[#111] rounded-xl overflow-hidden shadow-lg">
+      {/* Image container with aspect ratio */}
+      <div className="relative w-full aspect-[2/3] overflow-hidden">
         <ImageFallback
-          className="w-full h-60 object-cover rounded-xl"
+          className="w-full h-full object-cover rounded-t-lg"
           src={movie.Poster}
           alt={movie.Title}
         />
 
+
+        {/* Favorite Button */}
         <button
           onClick={toggleFavorite}
-          className="absolute top-2 right-2 bg-black bg-opacity-50 rounded-full p-1.5 cursor-pointer
+          className="absolute top-2 left-2 bg-black bg-opacity-50 rounded-full p-1.5 cursor-pointer
                      text-white hover:text-red-500 transition-colors duration-200 z-10"
           aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
         >
@@ -82,22 +81,23 @@ function MovieCard({
 
         {similarity && (
           <div className="absolute w-12 h-12 flex items-center justify-center bottom-0 right-0 bg-blue-400 bg-opacity-90 p-1 rounded-full m-3 text-white text-xs font-bold shadow-md">
-            {similarity}%
+            {Math.round(similarity)}%
           </div>
         )}
 
-        {index && (
+        {index !== undefined && ( 
           <div className="absolute text-gray-100 top-20 -left-6 text-7xl font-extrabold drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
-            {index}
+            {index + 1}
           </div>
         )}
       </div>
 
-      <div className="pt-2 pb-1 text-center">
-        <p className="text-white text-base font-semibold truncate w-full px-1">
+      {/* Text content area */}
+      <div className="pt-2 pb-3 px-2 text-left flex flex-col flex-grow"> 
+        <p className="text-white text-sm sm:text-base font-semibold line-clamp-2 leading-tight mb-1"> 
           {movie.Title}
         </p>
-        <p className="text-gray-400 text-sm truncate w-full px-1">{movie.Genre}</p>
+        <p className="text-gray-400 text-xs sm:text-sm line-clamp-1">{movie.Genre}</p> 
       </div>
     </Link>
   );

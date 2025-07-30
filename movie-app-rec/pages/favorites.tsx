@@ -52,14 +52,13 @@ function FavoritesPage() {
   }, [fetchFavorites]);
 
 
- 
   const handleFavoriteToggle = useCallback((movieId: string, isNowFavorite: boolean) => {
     if (isNowFavorite) {
-      
+      // If a movie is favorited, we might not need to refetch if it's already in the list
+      // But if it's unfavorited, we definitely need to remove it
     } else {
       setFavoriteMovies(prevMovies => prevMovies.filter(movie => movie._id !== movieId));
     }
-    
   }, []); 
 
 
@@ -97,9 +96,8 @@ function FavoritesPage() {
           <br />Go back to the <Link href="/" className="text-blue-400 hover:underline">homepage</Link> to add some!
         </p>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-x-4 gap-y-8 justify-items-center">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-4 justify-items-center"> 
           {favoriteMovies.map((movie) => (
-           
             <MovieCard key={movie._id} movie={movie} onFavoriteChange={handleFavoriteToggle} />
           ))}
         </div>
