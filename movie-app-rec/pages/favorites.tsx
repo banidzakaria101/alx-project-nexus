@@ -5,6 +5,7 @@ import Link from 'next/link';
 import MovieCard from '@/components/MovieCard';
 import { Movie } from '@/types';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import { TrashIcon } from '@heroicons/react/24/outline'; 
 
 function FavoritesPage() {
   const [favoriteMovies, setFavoriteMovies] = useState<Movie[]>([]);
@@ -53,13 +54,21 @@ function FavoritesPage() {
 
 
   const handleFavoriteToggle = useCallback((movieId: string, isNowFavorite: boolean) => {
-    if (isNowFavorite) {
-      // If a movie is favorited, we might not need to refetch if it's already in the list
-      // But if it's unfavorited, we definitely need to remove it
-    } else {
+    // This callback is triggered when a MovieCard's favorite status changes.
+    // If a movie is unfavorited from the card, we remove it from the displayed list.
+    if (!isNowFavorite) {
       setFavoriteMovies(prevMovies => prevMovies.filter(movie => movie._id !== movieId));
     }
-  }, []); 
+    // If it's favorited, it implies it was already fetched, or we'd need a re-fetch.
+    // For this page, typically favoriting happens elsewhere, and unfavoriting removes it.
+  }, []);
+
+  const handleClearAllFavorites = () => {
+    if (window.confirm("Are you sure you want to clear all favorite movies?")) {
+      localStorage.removeItem('favoriteMovieIds'); 
+      setFavoriteMovies([]); 
+    }
+  };
 
 
   if (loading && !initialLoadComplete) { 
@@ -82,12 +91,28 @@ function FavoritesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white px-14 py-10 ">
-      <div className="flex items-center mb-8">
-        <Link href="/" className="text-gray-400 hover:text-white mr-4">
-          <ArrowLeftIcon className="h-8 w-8" />
-        </Link>
-        <h1 className="text-3xl font-bold">My Favorite Movies</h1>
+    <div className="min-h-screen bg-black text-white px-14 py-10">
+      <div className="flex items-center justify-between mb-8"> 
+        <div className="flex items-center">
+          <Link href="/" className="text-gray-400 hover:text-white mr-4">
+            <ArrowLeftIcon className="h-8 w-8" />
+          </Link>
+          <h1 className="text-3xl font-bold">My Favorite Movies</h1>
+        </div>
+
+        {/* Clear All Favorites Button */}
+        {favoriteMovies.length > 0 && (
+          <button
+            onClick={handleClearAllFavorites}
+            className="flex items-center bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-3 rounded-lg
+                       transition duration-200 ease-in-out shadow-md
+                       text-sm" 
+            aria-label="Clear all favorite movies"
+          >
+            <TrashIcon className="h-5 w-5 mr-2" />
+            Clear All
+          </button>
+        )}
       </div>
 
       {favoriteMovies.length === 0 ? (
@@ -96,7 +121,7 @@ function FavoritesPage() {
           <br />Go back to the <Link href="/" className="text-blue-400 hover:underline">homepage</Link> to add some!
         </p>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-4 justify-items-center"> 
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-4 justify-center">
           {favoriteMovies.map((movie) => (
             <MovieCard key={movie._id} movie={movie} onFavoriteChange={handleFavoriteToggle} />
           ))}
