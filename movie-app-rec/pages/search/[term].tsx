@@ -6,7 +6,7 @@ import MovieCard from "@/components/MovieCard";
 interface SearchTermPageProps {
   term: string;
   similarMovies: Movie[];
-  currentGenre: string | null; 
+  currentGenre: string | null;
 }
 
 export default function SearchTermPage({ term, similarMovies }: SearchTermPageProps) {
@@ -16,12 +16,12 @@ export default function SearchTermPage({ term, similarMovies }: SearchTermPagePr
         Suggested results for: <span className="text-orange-400">{term}</span>
       </h1>
 
-      <div className="mx-auto max-w-screen-2xl"> 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 justify-items-center"> 
+      <div className="mx-auto max-w-screen-2xl">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 justify-items-center">
           {similarMovies.length > 0 ? (
             similarMovies.map((movie, index) => (
               <div key={movie._id} className="relative">
-               
+
                 <MovieCard movie={movie} index={index} />
               </div>
             ))
@@ -38,7 +38,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { term } = context.params as { term: string };
 
   let similarMovies: Movie[] = [];
-  let currentGenre: string | null = null; 
+  let currentGenre: string | null = null;
 
   const AVAILABLE_GENRES = [
     "Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Drama",
@@ -70,7 +70,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {
         term,
         similarMovies: [],
-        currentGenre: null, 
+        currentGenre: null,
       },
     };
   }
@@ -79,7 +79,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       term,
       similarMovies,
-      currentGenre, 
+      currentGenre,
     },
-  }; 
+  };
 };

@@ -3,8 +3,8 @@
 import { Movie, SimilarMovie } from "@/types";
 import Link from "next/link";
 import ImageFallback from "./ImageFallback";
-import { useState, useEffect } from 'react'; 
-import FavoriteButton from "./FavoriteButton"; 
+import { useState, useEffect } from 'react';
+import FavoriteButton from "./FavoriteButton";
 
 interface MovieCardProps {
   index?: number;
@@ -29,7 +29,7 @@ function MovieCard({
                  bg-gray-950 rounded-lg shadow-lg overflow-hidden relative
                  flex flex-col h-full w-full max-w-[180px] sm:max-w-[200px]"
     >
-     
+
       <div className="relative w-full aspect-[2/3] overflow-hidden">
         <ImageFallback
           className="w-full h-full object-cover rounded-t-lg"
@@ -37,11 +37,11 @@ function MovieCard({
           alt={movie.Title}
         />
 
-        
+
         <FavoriteButton
           movieId={movie._id}
           onFavoriteChange={onFavoriteChange}
-          variant="card" 
+          variant="card"
         />
 
         {similarity && (

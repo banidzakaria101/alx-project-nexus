@@ -36,11 +36,10 @@ export default function Home({ movies, page, totalPages }: Props) {
             <a
               key={pageNum}
               href={paginationHref}
-              className={`w-10 h-10 flex items-center justify-center rounded-full border transition-all duration-300 ${
-                isActive
+              className={`w-10 h-10 flex items-center justify-center rounded-full border transition-all duration-300 ${isActive
                   ? "bg-blue-500 text-white border-blue-500 scale-110 shadow-lg"
                   : "bg-gray-800 text-gray-300 border-gray-600 hover:bg-gray-700 hover:text-white"
-              }`}
+                }`}
             >
               {pageNum}
             </a>

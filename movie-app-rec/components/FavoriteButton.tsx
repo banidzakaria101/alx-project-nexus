@@ -8,11 +8,11 @@ interface FavoriteButtonProps {
   movieId: string;
   onFavoriteChange?: (movieId: string, isNowFavorite: boolean) => void;
   variant?: 'card';
-  
 
-  className?: string; 
-  iconSize?: string; 
-  padding?: string; 
+
+  className?: string;
+  iconSize?: string;
+  padding?: string;
 }
 
 function FavoriteButton({ movieId, onFavoriteChange, variant = 'card', className, iconSize = 'h-6 w-6', padding = 'p-1.5' }: FavoriteButtonProps) {
@@ -43,13 +43,13 @@ function FavoriteButton({ movieId, onFavoriteChange, variant = 'card', className
     }
   };
 
- 
+
   return (
     <button
       onClick={toggleFavorite}
       className={`absolute top-2 right-2 bg-black bg-opacity-50 rounded-full cursor-pointer
                  text-white hover:text-red-500 transition-colors duration-200 z-10
-                 ${padding} ${className || ''}`} 
+                 ${padding} ${className || ''}`}
       aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
     >
       {isFavorite ? (

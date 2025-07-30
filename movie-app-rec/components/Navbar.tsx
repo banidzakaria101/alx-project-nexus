@@ -4,7 +4,7 @@
 import Link from "next/link";
 import SearchInput from "./SearchInput";
 import GenreFilter from "./GenreFilter";
-import { HeartIcon, HomeIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid"; 
+import { HeartIcon, HomeIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { useState, useEffect, useRef } from "react";
 
 interface NavbarProps {
@@ -26,10 +26,10 @@ function Navbar({ currentGenre }: NavbarProps) {
     const handleClickOutside = (event: MouseEvent) => {
       if (navbarRef.current && !navbarRef.current.contains(event.target as Node)) {
         setIsFilterOpen(false);
-        setIsSearchOpen(false); 
+        setIsSearchOpen(false);
       }
     };
-    if (isFilterOpen || isSearchOpen) { 
+    if (isFilterOpen || isSearchOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -45,14 +45,14 @@ function Navbar({ currentGenre }: NavbarProps) {
       ref={navbarRef}
       className={`sticky top-0 z-50 bg-gray-900 shadow-xl px-4 md:px-10
                    transition-all duration-300 ease-in-out overflow-hidden`}
-      style={isFilterOpen ? { maxHeight: '300px' } : (isSearchOpen ? { maxHeight: '120px' } : { maxHeight: '68px' })} 
+      style={isFilterOpen ? { maxHeight: '300px' } : (isSearchOpen ? { maxHeight: '120px' } : { maxHeight: '68px' })}
     >
       <div className="flex items-center justify-between w-full py-3">
         {/* App Name */}
         <Link href="/" className="flex items-center text-white hover:text-orange-400 transition-colors duration-200 text-2xl sm:text-3xl font-bold whitespace-nowrap mr-4">
-          <HomeIcon className="h-8 w-8 mr-2 hidden sm:block" /> 
+          <HomeIcon className="h-8 w-8 mr-2 hidden sm:block" />
           <span className="hidden sm:inline">Movie Explorer</span>
-          <span className="sm:hidden">Movies</span> 
+          <span className="sm:hidden">Movies</span>
         </Link>
 
         {/* Search Input for larger screens */}
@@ -76,7 +76,7 @@ function Navbar({ currentGenre }: NavbarProps) {
             isOpen={isFilterOpen}
             onToggle={() => {
               setIsFilterOpen(!isFilterOpen);
-              setIsSearchOpen(false); 
+              setIsSearchOpen(false);
             }}
             availableGenres={availableGenres}
             currentGenre={currentGenre}
@@ -92,13 +92,13 @@ function Navbar({ currentGenre }: NavbarProps) {
 
       {/* Search Input for smaller screens - conditionally rendered */}
       <div className={`w-full md:hidden mt-3 ${isSearchOpen ? 'block' : 'hidden'}`}>
-        <SearchInput onSearch={() => setIsSearchOpen(false)} /> 
+        <SearchInput onSearch={() => setIsSearchOpen(false)} />
       </div>
 
       {/* Genre Filter Display Area */}
       <div
         className={`w-full flex flex-wrap justify-center gap-x-3 gap-y-2 py-3 px-4 transition-opacity duration-300 ${isFilterOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-        style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }} 
+        style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}
       >
         {/* All Genres option */}
         <Link

@@ -14,14 +14,14 @@ function ImageFallback({ src, alt, className }: ImageFallbackProps) {
     <Image
       src={imgSrc}
       alt={alt}
-      width={300} 
+      width={300}
       height={450}
       className={className}
       onError={() => {
         setImgSrc("/placeholder.jpeg");
       }}
-      priority={false} 
-      unoptimized={true} 
+      priority={false}
+      unoptimized={true}
     />
   );
 }

@@ -26,8 +26,8 @@ export default function MovieDetailsPage({ movie, similarMovies }: MovieDetailsP
 
       {/* Movie Details Section */}
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8 max-w-4xl mx-auto mb-12 bg-gray-900 p-6 rounded-lg shadow-xl">
-        
-        <div className="relative w-64 h-auto rounded-lg shadow-lg overflow-hidden"> 
+
+        <div className="relative w-64 h-auto rounded-lg shadow-lg overflow-hidden">
           <img
             src={movie.Poster}
             alt={movie.Title}
@@ -40,11 +40,11 @@ export default function MovieDetailsPage({ movie, similarMovies }: MovieDetailsP
             <FavoriteButton
               movieId={movie._id}
               onFavoriteChange={handleFavoriteChange}
-              variant="card" 
-            
+              variant="card"
+
               className="top-4 right-4"
-              iconSize="h-7 w-7" 
-              padding="p-2" 
+              iconSize="h-7 w-7"
+              padding="p-2"
             />
           )}
         </div>

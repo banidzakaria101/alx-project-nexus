@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter } from "next/navigation";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/solid"; 
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
 interface SearchInputProps {
-  onSearch?: () => void; 
+  onSearch?: () => void;
 }
 
 function SearchInput({ onSearch }: SearchInputProps) {
@@ -17,7 +17,7 @@ function SearchInput({ onSearch }: SearchInputProps) {
     if (searchTerm.trim()) {
       router.push(`/search/${searchTerm}`);
       if (onSearch) {
-        onSearch(); 
+        onSearch();
       }
     }
   };
@@ -26,7 +26,7 @@ function SearchInput({ onSearch }: SearchInputProps) {
     <form onSubmit={handleSubmit} className="flex items-center bg-gray-700 rounded-full py-2 px-4 shadow-inner">
       <input
         type="text"
-        className="flex-1 bg-transparent outline-none text-white placeholder-gray-400 text-base sm:text-lg mr-2" 
+        className="flex-1 bg-transparent outline-none text-white placeholder-gray-400 text-base sm:text-lg mr-2"
         name="searchTerm"
         placeholder="Search movies..."
         value={searchTerm}

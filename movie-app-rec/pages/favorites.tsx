@@ -5,7 +5,7 @@ import Link from 'next/link';
 import MovieCard from '@/components/MovieCard';
 import { Movie } from '@/types';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
-import { TrashIcon } from '@heroicons/react/24/outline'; 
+import { TrashIcon } from '@heroicons/react/24/outline';
 
 function FavoritesPage() {
   const [favoriteMovies, setFavoriteMovies] = useState<Movie[]>([]);
@@ -65,13 +65,13 @@ function FavoritesPage() {
 
   const handleClearAllFavorites = () => {
     if (window.confirm("Are you sure you want to clear all favorite movies?")) {
-      localStorage.removeItem('favoriteMovieIds'); 
-      setFavoriteMovies([]); 
+      localStorage.removeItem('favoriteMovieIds');
+      setFavoriteMovies([]);
     }
   };
 
 
-  if (loading && !initialLoadComplete) { 
+  if (loading && !initialLoadComplete) {
     return (
       <div className="min-h-screen bg-black text-white p-10 flex flex-col items-center justify-center">
         <p className="text-xl">Loading favorite movies...</p>
@@ -92,7 +92,7 @@ function FavoritesPage() {
 
   return (
     <div className="min-h-screen bg-black text-white px-14 py-10">
-      <div className="flex items-center justify-between mb-8"> 
+      <div className="flex items-center justify-between mb-8">
         <div className="flex items-center">
           <Link href="/" className="text-gray-400 hover:text-white mr-4">
             <ArrowLeftIcon className="h-8 w-8" />
@@ -106,7 +106,7 @@ function FavoritesPage() {
             onClick={handleClearAllFavorites}
             className="flex items-center bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-3 rounded-lg
                        transition duration-200 ease-in-out shadow-md
-                       text-sm" 
+                       text-sm"
             aria-label="Clear all favorite movies"
           >
             <TrashIcon className="h-5 w-5 mr-2" />
