@@ -56,7 +56,7 @@ function Navbar({ currentGenre }: NavbarProps) {
         </Link>
 
         {/* Search Input for larger screens */}
-        <div className="flex-grow mx-20 hidden md:block">
+        <div className="flex-grow mx-32  hidden md:block">
           <SearchInput />
         </div>
 

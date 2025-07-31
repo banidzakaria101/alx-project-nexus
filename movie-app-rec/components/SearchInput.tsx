@@ -26,21 +26,21 @@ function SearchInput({ onSearch }: SearchInputProps) {
 
   return (
     <form onSubmit={handleSubmit}
-      className="flex items-center bg-white rounded-full py-1 px-4 shadow-inner"
+      className="flex items-center bg-white rounded-full  px-4 shadow-inner"
     >
       {/* GIF Image*/}
       <img
         src="/icons8-film-reel.gif"
         alt="Film Reel Icon"
         style={{ height: '30px', width: '30px' }}
-        className="mr-2"
+        className="mt-2 mr-2"
       />
 
       <input
         type="text"
         className="flex-1 bg-transparent outline-none text-black placeholder-gray-600 text-base"
         name="searchTerm"
-        placeholder="Search movies..."
+        placeholder="Search for movies..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
