@@ -1,3 +1,4 @@
+// pages/movie/[id].tsx
 "use client";
 
 import { GetServerSideProps } from "next";
@@ -5,6 +6,7 @@ import db from "@/lib/astra";
 import { Movie, SimilarMovie } from "@/types";
 import MovieCard from "@/components/MovieCard";
 import FavoriteButton from "@/components/FavoriteButton";
+// Removed: import SuggestedMoviesSection from "@/components/SuggestedMoviesSection";
 
 interface MovieDetailsPageProps {
   movie: Movie | null;
@@ -41,7 +43,6 @@ export default function MovieDetailsPage({ movie, similarMovies }: MovieDetailsP
               movieId={movie._id}
               onFavoriteChange={handleFavoriteChange}
               variant="card"
-
               className="top-4 right-4"
               iconSize="h-7 w-7"
               padding="p-2"
@@ -71,12 +72,12 @@ export default function MovieDetailsPage({ movie, similarMovies }: MovieDetailsP
       </div>
 
 
-      {/* Similar Movies Section */}
+      {/* Similar Movies Section - Now displaying 2 cards per line on mobile */}
       <h2 className="text-2xl font-bold mb-6 text-center">Suggested Movies</h2>
       {similarMovies.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center max-w-6xl mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-4 justify-center max-w-6xl mx-auto">
           {similarMovies.map((simMovie) => (
-            <MovieCard key={simMovie._id} movie={simMovie} />
+            <MovieCard key={simMovie._id} movie={simMovie} onFavoriteChange={handleFavoriteChange} />
           ))}
         </div>
       ) : (

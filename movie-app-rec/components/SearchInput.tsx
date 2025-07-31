@@ -2,10 +2,12 @@
 
 import { useState } from 'react';
 import { useRouter } from "next/navigation";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
+
+
 
 interface SearchInputProps {
-  onSearch?: () => void;
+  onSearch?: () => void; 
 }
 
 function SearchInput({ onSearch }: SearchInputProps) {
@@ -23,17 +25,28 @@ function SearchInput({ onSearch }: SearchInputProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center bg-gray-700 rounded-full py-2 px-4 shadow-inner">
+    <form onSubmit={handleSubmit}
+      className="flex items-center bg-white rounded-full py-1 px-4 shadow-inner"
+    >
+      {/* GIF Image*/}
+      <img
+        src="/icons8-film-reel.gif"
+        alt="Film Reel Icon"
+        style={{ height: '30px', width: '30px' }}
+        className="mr-2"
+      />
+
       <input
         type="text"
-        className="flex-1 bg-transparent outline-none text-white placeholder-gray-400 text-base sm:text-lg mr-2"
+        className="flex-1 bg-transparent outline-none text-black placeholder-gray-600 text-base"
         name="searchTerm"
         placeholder="Search movies..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <button type="submit" className="text-gray-400 hover:text-white transition-colors duration-200" aria-label="Submit search">
-        <MagnifyingGlassIcon className="h-5 w-5" />
+
+      <button type="submit" className="text-black hover:text-blue-900 transition-colors duration-200" aria-label="Submit search">
+        <MagnifyingGlassIcon className="h-8 w-8" />
       </button>
     </form>
   );

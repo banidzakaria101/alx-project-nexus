@@ -1,3 +1,4 @@
+// pages/favorites.tsx
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
@@ -5,7 +6,7 @@ import Link from 'next/link';
 import MovieCard from '@/components/MovieCard';
 import { Movie } from '@/types';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
-import { TrashIcon } from '@heroicons/react/24/outline';
+import { TrashIcon } from '@heroicons/react/24/outline'; // Import a trash icon for the clear button
 
 function FavoritesPage() {
   const [favoriteMovies, setFavoriteMovies] = useState<Movie[]>([]);
@@ -54,13 +55,9 @@ function FavoritesPage() {
 
 
   const handleFavoriteToggle = useCallback((movieId: string, isNowFavorite: boolean) => {
-    // This callback is triggered when a MovieCard's favorite status changes.
-    // If a movie is unfavorited from the card, we remove it from the displayed list.
     if (!isNowFavorite) {
       setFavoriteMovies(prevMovies => prevMovies.filter(movie => movie._id !== movieId));
     }
-    // If it's favorited, it implies it was already fetched, or we'd need a re-fetch.
-    // For this page, typically favoriting happens elsewhere, and unfavoriting removes it.
   }, []);
 
   const handleClearAllFavorites = () => {
@@ -91,26 +88,27 @@ function FavoritesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white px-14 py-10">
+    <div className="min-h-screen bg-black text-white px-6 sm:px-14 py-10"> {/* Adjusted px for mobile first */}
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center">
-          <Link href="/" className="text-gray-400 hover:text-white mr-4">
-            <ArrowLeftIcon className="h-8 w-8" />
+          <Link href="/" className="text-gray-400 hover:text-white mr-2 sm:mr-4"> {/* Adjusted margin for mobile */}
+            <ArrowLeftIcon className="h-7 w-7 sm:h-8 sm:w-8" /> {/* Adjusted icon size for mobile */}
           </Link>
-          <h1 className="text-3xl font-bold">My Favorite Movies</h1>
+          {/* My Favorite Movies Title: Smaller on mobile, larger on sm screens and up */}
+          <h1 className="text-2xl sm:text-3xl font-bold whitespace-nowrap overflow-hidden text-ellipsis">My Favorite Movies</h1>
         </div>
 
         {/* Clear All Favorites Button */}
         {favoriteMovies.length > 0 && (
           <button
             onClick={handleClearAllFavorites}
-            className="flex items-center bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-3 rounded-lg
+            className="flex items-center bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-2 sm:px-3 rounded-lg {/* Smaller px on mobile */}
                        transition duration-200 ease-in-out shadow-md
                        text-sm"
             aria-label="Clear all favorite movies"
           >
-            <TrashIcon className="h-5 w-5 mr-2" />
-            Clear All
+            <TrashIcon className="h-5 w-5 mr-0 sm:mr-2" /> {/* Remove margin right on mobile */}
+            <span className="hidden sm:inline">Clear All</span> {/* Hide text on mobile */}
           </button>
         )}
       </div>
