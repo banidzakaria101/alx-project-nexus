@@ -82,7 +82,6 @@ function FavoriteButton({ movieId, onFavoriteChange, variant = 'details', classN
       ) : (
         <HeartOutlineIcon className={`${iconSize} text-white mr-2`} />
       )}
-      {isFavorite ? "Favorited" : "Add to Favorites"}
     </button>
   );
 }
