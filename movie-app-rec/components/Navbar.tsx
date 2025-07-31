@@ -49,9 +49,9 @@ function Navbar({ currentGenre }: NavbarProps) {
     >
       <div className="flex items-center justify-between w-full py-3">
         {/* App Name */}
-        <Link href="/" className="flex items-center text-white hover:text-orange-400 transition-colors duration-200 text-2xl sm:text-3xl font-bold whitespace-nowrap mr-4">
+        <Link href="/" className="flex items-center text-white hover:text-orange-400 transition-colors duration-200 text-2xl sm:text-3xl font-thin whitespace-nowrap mr-4">
           <HomeIcon className="h-8 w-8 mr-2 hidden sm:block" />
-          <span className="hidden sm:inline">Movie Explorer</span>
+          <span className="hidden sm:inline">CineVerse</span>
           <span className="sm:hidden">Movies</span>
         </Link>
 

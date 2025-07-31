@@ -6,7 +6,7 @@ import Link from 'next/link';
 import MovieCard from '@/components/MovieCard';
 import { Movie } from '@/types';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
-import { TrashIcon } from '@heroicons/react/24/outline'; // Import a trash icon for the clear button
+import { TrashIcon } from '@heroicons/react/24/outline';
 
 function FavoritesPage() {
   const [favoriteMovies, setFavoriteMovies] = useState<Movie[]>([]);
@@ -88,11 +88,11 @@ function FavoritesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white px-6 sm:px-14 py-10"> {/* Adjusted px for mobile first */}
+    <div className="min-h-screen bg-black text-white px-6 sm:px-14 py-10"> 
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center">
-          <Link href="/" className="text-gray-400 hover:text-white mr-2 sm:mr-4"> {/* Adjusted margin for mobile */}
-            <ArrowLeftIcon className="h-7 w-7 sm:h-8 sm:w-8" /> {/* Adjusted icon size for mobile */}
+          <Link href="/" className="text-gray-400 hover:text-white mr-2 sm:mr-4"> 
+            <ArrowLeftIcon className="h-7 w-7 sm:h-8 sm:w-8" /> 
           </Link>
           {/* My Favorite Movies Title: Smaller on mobile, larger on sm screens and up */}
           <h1 className="text-2xl sm:text-3xl font-bold whitespace-nowrap overflow-hidden text-ellipsis">My Favorite Movies</h1>
@@ -107,7 +107,7 @@ function FavoritesPage() {
                        text-sm"
             aria-label="Clear all favorite movies"
           >
-            <TrashIcon className="h-5 w-5 mr-0 sm:mr-2" /> {/* Remove margin right on mobile */}
+            <TrashIcon className="h-5 w-5 mr-0 sm:mr-2" /> 
             <span className="hidden sm:inline">Clear All</span> {/* Hide text on mobile */}
           </button>
         )}
