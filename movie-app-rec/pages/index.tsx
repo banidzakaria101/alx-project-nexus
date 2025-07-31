@@ -1,8 +1,11 @@
+
 import { GetServerSideProps } from "next";
 import { Movie } from "@/types";
-import MovieCard from "@/components/MovieCard";
-import db from "@/lib/astra";
 
+import db from "@/lib/astra";
+import Link from "next/link";
+import { motion } from "framer-motion"; 
+import AnimatedMovieGrid from "@/components/AnimatedMovieGrid"; 
 const MOVIES_PER_PAGE = 25;
 const MAX_COUNT_LIMIT = 1000;
 
@@ -14,15 +17,18 @@ type Props = {
 
 export default function Home({ movies, page, totalPages }: Props) {
   return (
-    <div className="min-h-screen bg-black text-white px-10 py-10">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }} 
+      transition={{ duration: 0.8 }} 
+      className="min-h-screen bg-black text-white px-10 py-10"
+    >
       <h1 className="text-3xl font-bold mb-8 text-center sr-only">🎬 Movie Explorer</h1>
 
       <div className="mx-auto max-w-screen-2xl px-4">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-8 justify-items-center">
-          {movies.map((movie) => (
-            <MovieCard key={movie._id} movie={movie} />
-          ))}
-        </div>
+      
+        <AnimatedMovieGrid movies={movies} />
       </div>
 
       <div className="flex flex-wrap items-center justify-center gap-2 mt-12">
@@ -46,7 +52,7 @@ export default function Home({ movies, page, totalPages }: Props) {
           );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 }
 

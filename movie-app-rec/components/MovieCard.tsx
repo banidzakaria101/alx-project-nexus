@@ -3,7 +3,6 @@
 import { Movie, SimilarMovie } from "@/types";
 import Link from "next/link";
 import ImageFallback from "./ImageFallback";
-import { useState, useEffect } from 'react';
 import FavoriteButton from "./FavoriteButton";
 
 interface MovieCardProps {
@@ -17,19 +16,20 @@ function MovieCard({
   index,
   movie,
   similarity,
-  onFavoriteChange
+  onFavoriteChange,
 }: MovieCardProps) {
-  const movieDetailsHref = `/movie/${movie._id}?title=${encodeURIComponent(movie.Title)}`;
+  const movieDetailsHref = `/movie/${movie._id}?title=${encodeURIComponent(
+    movie.Title
+  )}`;
 
   return (
     <Link
       key={movie._id}
       href={movieDetailsHref}
       className="group transform transition duration-300 hover:scale-105
-                 bg-gray-950 rounded-lg shadow-lg overflow-hidden relative
-                 flex flex-col h-full w-full max-w-[180px] sm:max-w-[200px]"
+bg-gray-950 rounded-lg shadow-lg overflow-hidden relative
+flex flex-col h-full w-full max-w-[180px] sm:max-w-[200px]"
     >
-
       <div className="relative w-full aspect-[2/3] overflow-hidden">
         <ImageFallback
           className="w-full h-full object-cover rounded-t-lg"
@@ -37,12 +37,16 @@ function MovieCard({
           alt={movie.Title}
         />
 
-
+        {/* --- START FavoriteButton usage --- */}
         <FavoriteButton
           movieId={movie._id}
           onFavoriteChange={onFavoriteChange}
-        
+          variant="card" // Specify 'card' variant
+          className="absolute top-2 right-2 bg-black bg-opacity-50"
+          iconSize="h-6 w-6"
+          padding="p-1.5"
         />
+        {/* --- END FavoriteButton usage --- */}
 
         {similarity && (
           <div className="absolute w-12 h-12 flex items-center justify-center bottom-0 left-2 bg-blue-400 bg-opacity-90 p-1 rounded-full m-3 text-white text-xs font-bold shadow-md">
@@ -62,7 +66,9 @@ function MovieCard({
         <p className="text-white text-sm sm:text-base font-semibold line-clamp-2 leading-tight mb-1">
           {movie.Title}
         </p>
-        <p className="text-gray-400 text-xs sm:text-sm line-clamp-1">{movie.Genre}</p>
+        <p className="text-gray-400 text-xs sm:text-sm line-clamp-1">
+          {movie.Genre}
+        </p>
       </div>
     </Link>
   );
