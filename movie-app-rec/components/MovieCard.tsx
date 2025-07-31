@@ -41,7 +41,7 @@ function MovieCard({
         <FavoriteButton
           movieId={movie._id}
           onFavoriteChange={onFavoriteChange}
-          variant="card"
+        
         />
 
         {similarity && (

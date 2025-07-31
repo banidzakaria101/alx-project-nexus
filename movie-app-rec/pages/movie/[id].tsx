@@ -42,7 +42,6 @@ export default function MovieDetailsPage({ movie, similarMovies }: MovieDetailsP
             <FavoriteButton
               movieId={movie._id}
               onFavoriteChange={handleFavoriteChange}
-              variant="card"
               className="top-4 right-4"
               iconSize="h-7 w-7"
               padding="p-2"
