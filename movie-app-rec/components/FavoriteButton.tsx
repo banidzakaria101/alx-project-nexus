@@ -52,10 +52,10 @@ function FavoriteButton({ movieId, onFavoriteChange, variant = 'details', classN
     return (
       <button
         onClick={toggleFavorite}
-        // Apply animation classes conditionally
+        
         className={`${padding} rounded-full cursor-pointer text-white hover:text-red-500 transition-colors duration-200 z-10
                   ${isAnimating ? 'scale-125 transition-transform duration-100 ease-out' : 'scale-100'}
-                  ${className || 'absolute top-2 left-2 bg-black bg-opacity-50'}`} // Default position and background for 'card'
+                  ${className || 'absolute top-2 left-2 bg-black bg-opacity-50'}`} 
         aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
       >
         {isFavorite ? (
@@ -71,7 +71,6 @@ function FavoriteButton({ movieId, onFavoriteChange, variant = 'details', classN
   return (
     <button
       onClick={toggleFavorite}
-      // Apply animation classes and other base styles
       className={`inline-flex items-center px-4 py-2 rounded-full font-semibold text-sm transition-colors duration-200
                   bg-gray-700 text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800
                   ${isAnimating ? 'scale-110 transition-transform duration-100 ease-out' : 'scale-100'}

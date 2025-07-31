@@ -41,7 +41,7 @@ flex flex-col h-full w-full max-w-[180px] sm:max-w-[200px]"
         <FavoriteButton
           movieId={movie._id}
           onFavoriteChange={onFavoriteChange}
-          variant="card" // Specify 'card' variant
+          variant="card" 
           className="absolute top-2 right-2 bg-black bg-opacity-50"
           iconSize="h-6 w-6"
           padding="p-1.5"

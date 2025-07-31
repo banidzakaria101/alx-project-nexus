@@ -23,10 +23,6 @@ export default async function handler(
     }
 
     try {
-      // --- Simulate sending email or saving to DB ---
-      // In a real application, you would integrate with an email sending service (e.g., Nodemailer, SendGrid)
-      // or save this data to a database.
-
       console.log('--- New Contact Form Submission ---');
       console.log(`Name: ${name}`);
       console.log(`Email: ${email}`);

@@ -1,9 +1,8 @@
-// pages/search/[term].tsx
 import { GetServerSideProps } from "next";
 import db from "@/lib/astra";
 import { Movie, SimilarMovie } from "@/types";
-// import MovieCard from "@/components/MovieCard"; // No longer directly imported
-import AnimatedMovieGrid from "@/components/AnimatedMovieGrid"; // <--- Import the new component
+import AnimatedMovieGrid from "@/components/AnimatedMovieGrid";
+import { motion } from "framer-motion"; 
 
 interface SearchTermPageProps {
   term: string;
@@ -13,20 +12,25 @@ interface SearchTermPageProps {
 
 export default function SearchTermPage({ term, similarMovies, currentGenre }: SearchTermPageProps) {
   return (
-    <div className="min-h-screen bg-black text-white px-6 py-10">
-      <h1 className="text-3xl font-bold mb-8 text-center">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-black text-white px-6 py-10"
+    >
+      <h1 className="text-2xl sm:text-3xl font-bold mb-8 text-center">
         Suggested results for: <span className="text-orange-400">{term}</span>
       </h1>
 
-      <div className="mx-auto max-w-screen-2xl px-4">
-        {/* Replace the grid div with AnimatedMovieGrid */}
+      <div className="mx-auto max-w-screen-2xl">
         <AnimatedMovieGrid movies={similarMovies} />
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const page = parseInt((context.query.page as string) || "1"); 
   const { term } = context.params as { term: string };
 
   let similarMovies: Movie[] = [];
@@ -50,10 +54,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         sort: {
           $vectorize: term,
         },
-        limit: 20, // Keep your desired limit
+        limit: 20, 
         includeSimilarity: true,
       }
-    ).toArray() as SimilarMovie[]; // Cast to SimilarMovie[] if includeSimilarity is true
+    ).toArray() as SimilarMovie[];
 
   } catch (error) {
     console.error("❌ Error during vector search on search page:", error);

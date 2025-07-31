@@ -3,10 +3,12 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import MovieCard from '@/components/MovieCard';
+// No longer needs direct motion import at the root, as _app.tsx handles it
+// import { motion } from 'framer-motion'; 
 import { Movie } from '@/types';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { TrashIcon } from '@heroicons/react/24/outline';
+import AnimatedMovieGrid from '@/components/AnimatedMovieGrid';
 
 function FavoritesPage() {
   const [favoriteMovies, setFavoriteMovies] = useState<Movie[]>([]);
@@ -91,10 +93,9 @@ function FavoritesPage() {
     <div className="min-h-screen bg-black text-white px-6 sm:px-14 py-10"> 
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center">
-          <Link href="/" className="text-gray-400 hover:text-white mr-2 sm:mr-4"> 
-            <ArrowLeftIcon className="h-7 w-7 sm:h-8 sm:w-8" /> 
+          <Link href="/" className="text-gray-400 hover:text-white mr-2 sm:mr-4">
+            <ArrowLeftIcon className="h-7 w-7 sm:h-8 sm:w-8" />
           </Link>
-          {/* My Favorite Movies Title: Smaller on mobile, larger on sm screens and up */}
           <h1 className="text-2xl sm:text-3xl font-bold whitespace-nowrap overflow-hidden text-ellipsis">My Favorite Movies</h1>
         </div>
 
@@ -102,13 +103,13 @@ function FavoritesPage() {
         {favoriteMovies.length > 0 && (
           <button
             onClick={handleClearAllFavorites}
-            className="flex items-center bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-2 sm:px-3 rounded-lg {/* Smaller px on mobile */}
+            className="flex items-center bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-2 sm:px-3 rounded-lg
                        transition duration-200 ease-in-out shadow-md
                        text-sm"
             aria-label="Clear all favorite movies"
           >
-            <TrashIcon className="h-5 w-5 mr-0 sm:mr-2" /> 
-            <span className="hidden sm:inline">Clear All</span> {/* Hide text on mobile */}
+            <TrashIcon className="h-5 w-5 mr-0 sm:mr-2" />
+            <span className="hidden sm:inline">Clear All</span>
           </button>
         )}
       </div>
@@ -119,11 +120,7 @@ function FavoritesPage() {
           <br />Go back to the <Link href="/" className="text-blue-400 hover:underline">homepage</Link> to add some!
         </p>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-4 justify-center">
-          {favoriteMovies.map((movie) => (
-            <MovieCard key={movie._id} movie={movie} onFavoriteChange={handleFavoriteToggle} />
-          ))}
-        </div>
+        <AnimatedMovieGrid movies={favoriteMovies} onFavoriteChange={handleFavoriteToggle} />
       )}
     </div>
   );

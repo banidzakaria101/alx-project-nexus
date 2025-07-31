@@ -1,11 +1,10 @@
-
+// pages/index.tsx
 import { GetServerSideProps } from "next";
 import { Movie } from "@/types";
-
 import db from "@/lib/astra";
 import Link from "next/link";
-import { motion } from "framer-motion"; 
-import AnimatedMovieGrid from "@/components/AnimatedMovieGrid"; 
+import AnimatedMovieGrid from "@/components/AnimatedMovieGrid";
+
 const MOVIES_PER_PAGE = 25;
 const MAX_COUNT_LIMIT = 1000;
 
@@ -17,18 +16,11 @@ type Props = {
 
 export default function Home({ movies, page, totalPages }: Props) {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }} 
-      transition={{ duration: 0.8 }} 
-      className="min-h-screen bg-black text-white px-10 py-10"
-    >
+    <div className="min-h-screen bg-black text-white px-10 py-10">
       <h1 className="text-3xl font-bold mb-8 text-center sr-only">🎬 Movie Explorer</h1>
 
       <div className="mx-auto max-w-screen-2xl px-4">
-      
-        <AnimatedMovieGrid movies={movies} />
+        <AnimatedMovieGrid movies={movies} uniqueKey={page} /> 
       </div>
 
       <div className="flex flex-wrap items-center justify-center gap-2 mt-12">
@@ -39,7 +31,7 @@ export default function Home({ movies, page, totalPages }: Props) {
           const paginationHref = `/?page=${pageNum}`;
 
           return (
-            <a
+            <Link
               key={pageNum}
               href={paginationHref}
               className={`w-10 h-10 flex items-center justify-center rounded-full border transition-all duration-300 ${isActive
@@ -48,11 +40,11 @@ export default function Home({ movies, page, totalPages }: Props) {
                 }`}
             >
               {pageNum}
-            </a>
+            </Link>
           );
         })}
       </div>
-    </motion.div>
+    </div>
   );
 }
 

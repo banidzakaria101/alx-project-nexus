@@ -34,6 +34,10 @@ function Footer() {
               Popular
             </Link>
             {/* About Us Link */}
+            <Link href="/contact" className="hover:text-white transition-colors duration-200">
+              Contact Us
+            </Link>
+            {/* About Us Link */}
             <Link href="/about" className="hover:text-white transition-colors duration-200">
               About Us
             </Link>
