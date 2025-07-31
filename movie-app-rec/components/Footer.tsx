@@ -1,4 +1,3 @@
-// components/Footer.tsx
 import Link from "next/link";
 import { HomeIcon } from "@heroicons/react/24/solid";
 import { CodeBracketIcon, GlobeAltIcon } from "@heroicons/react/24/outline";
@@ -14,7 +13,7 @@ function Footer() {
         <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6 pb-6 border-b border-gray-800">
           {/* Branding (App Name/Logo and Description) */}
           <div className="flex flex-col items-center sm:items-start text-center sm:text-left max-w-sm">
-            <Link href="/" className="flex items-center text-white text-2xl font-bold hover:text-orange-400 transition-colors duration-200 mb-2">
+            <Link href="/" className="flex items-center text-white text-2xl font-thin hover:text-orange-400 transition-colors duration-200 mb-2">
               <HomeIcon className="h-8 w-8 mr-2" />
               CineVerse
             </Link>
@@ -34,9 +33,9 @@ function Footer() {
             <Link href="/search/popular" className="hover:text-blue-400 transition-colors duration-200">
               Popular
             </Link>
-            {/* Contact Us Link */}
-            <Link href="/contact" className="hover:text-white transition-colors duration-200">
-              Contact Us
+            {/* About Us Link */}
+            <Link href="/about" className="hover:text-white transition-colors duration-200">
+              About Us
             </Link>
           </div>
         </div>
