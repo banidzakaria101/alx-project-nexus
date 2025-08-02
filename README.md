@@ -78,11 +78,9 @@ Want to run CineVerse on your machine? Follow these simple steps:
 
 1.  **Clone the Repository:**
     ```bash
-    git clone [https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git)
+    git clone https://github.com/banidzakaria101/alx-project-nexus.git
     cd YOUR_REPO_NAME
     ```
-    *(Replace `YOUR_USERNAME` and `YOUR_REPO_NAME` with your actual GitHub details)*
-
 2.  **Install Dependencies:**
     ```bash
     npm install
@@ -101,12 +99,7 @@ Want to run CineVerse on your machine? Follow these simple steps:
     *(**Important:** Never commit this file to public repositories! It's already in `.gitignore`.)*
 
 4.  **Prepare Movie Data with Vectors:**
-    Your `cleaned_movies.csv` needs vector embeddings.
-    ```bash
-    # Run this Python script from your project root (ensure Python and pip are installed)
-    python generate_movie_vectors.py
-    ```
-    This will create `movies_with_vectors.csv`.
+    
 
 5.  **Ingest Data into Astra DB:**
     * **Ensure your `mouvie_collection` exists** in your `mouvie_keyspace` on Astra DB. Make sure it's **Vector-enabled** with the correct dimension (e.g., 1536) and similarity metric (e.g., `cosine`).
