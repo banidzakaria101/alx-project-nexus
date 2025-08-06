@@ -8,7 +8,7 @@ interface GenreFilterProps {
   currentGenre?: string;
 }
 
-function GenreFilter({ isOpen, onToggle, currentGenre }: GenreFilterProps) {
+function GenreFilter({ isOpen, onToggle }: GenreFilterProps) {
 
   return (
     <div className="relative inline-block text-left">

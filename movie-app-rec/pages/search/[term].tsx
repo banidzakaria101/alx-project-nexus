@@ -30,7 +30,6 @@ export default function SearchTermPage({ term, similarMovies }: SearchTermPagePr
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const page = parseInt((context.query.page as string) || "1"); 
   const { term } = context.params as { term: string };
 
   let similarMovies: Movie[] = [];

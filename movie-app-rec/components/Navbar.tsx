@@ -11,7 +11,7 @@ interface NavbarProps {
   currentGenre?: string | null;
 }
 
-function Navbar({ currentGenre }: NavbarProps) {
+function Navbar({ }: NavbarProps) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const navbarRef = useRef<HTMLElement>(null);
