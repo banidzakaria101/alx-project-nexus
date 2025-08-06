@@ -1,8 +1,9 @@
+// pages/search/[term].tsx
 import { GetServerSideProps } from "next";
 import db from "@/lib/astra";
 import { Movie, SimilarMovie } from "@/types";
 import AnimatedMovieGrid from "@/components/AnimatedMovieGrid";
-import { motion } from "framer-motion"; 
+import { motion } from "framer-motion";
 
 interface SearchTermPageProps {
   term: string;
@@ -10,9 +11,10 @@ interface SearchTermPageProps {
   currentGenre: string | null;
 }
 
-export default function SearchTermPage({ term, similarMovies, currentGenre }: SearchTermPageProps) {
+// Corrected: Removed unused prop 'currentGenre' from component function signature
+export default function SearchTermPage({ term, similarMovies }: SearchTermPageProps) {
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -23,7 +25,7 @@ export default function SearchTermPage({ term, similarMovies, currentGenre }: Se
       </h1>
 
       <div className="mx-auto max-w-screen-2xl">
-        <AnimatedMovieGrid movies={similarMovies} />
+        <AnimatedMovieGrid movies={similarMovies} uniqueKey={term} />
       </div>
     </motion.div>
   );
@@ -54,12 +56,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         sort: {
           $vectorize: term,
         },
-        limit: 20, 
+        limit: 20,
         includeSimilarity: true,
       }
     ).toArray() as SimilarMovie[];
 
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("❌ Error during vector search on search page:", error);
     return {
       props: {
