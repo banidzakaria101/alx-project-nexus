@@ -1,4 +1,3 @@
-// pages/search/[term].tsx
 import { GetServerSideProps } from "next";
 import db from "@/lib/astra";
 import { Movie, SimilarMovie } from "@/types";
@@ -11,7 +10,6 @@ interface SearchTermPageProps {
   currentGenre: string | null;
 }
 
-// Corrected: Removed unused prop 'currentGenre' from component function signature
 export default function SearchTermPage({ term, similarMovies }: SearchTermPageProps) {
   return (
     <motion.div

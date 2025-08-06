@@ -1,4 +1,3 @@
-// pages/api/contact.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 interface ContactFormData {

@@ -1,12 +1,13 @@
-// lib/astra.ts
 import { DataAPIClient } from "@datastax/astra-db-ts";
+import 'dotenv/config'; 
 
 let db: ReturnType<DataAPIClient["db"]>;
 
 if (typeof window === "undefined") {
-  require("dotenv").config();
-
-  const { ASTRA_DB_APPLICATION_TOKEN, ASTRA_DB_API_ENDPOINT } = process.env;
+  const {
+    ASTRA_DB_APPLICATION_TOKEN,
+    ASTRA_DB_API_ENDPOINT,
+  } = process.env;
 
   if (!ASTRA_DB_APPLICATION_TOKEN || !ASTRA_DB_API_ENDPOINT) {
     throw new Error("❌ Missing Astra credentials. Make sure they are defined in .env.local");
