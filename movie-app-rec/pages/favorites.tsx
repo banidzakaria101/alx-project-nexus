@@ -1,10 +1,7 @@
-// pages/favorites.tsx
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-// No longer needs direct motion import at the root, as _app.tsx handles it
-// import { motion } from 'framer-motion'; 
 import { Movie } from '@/types';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { TrashIcon } from '@heroicons/react/24/outline';
@@ -41,9 +38,10 @@ function FavoritesPage() {
       const data: Movie[] = await response.json();
       setFavoriteMovies(data);
 
-    } catch (e: any) {
+    } catch (e: unknown) { 
       console.error("Failed to fetch favorite movies:", e);
-      setError(`Failed to load favorites: ${e.message}`);
+      // Safely access error message if 'e' is an Error object, otherwise convert to string
+      setError(`Failed to load favorites: ${e instanceof Error ? e.message : String(e)}`);
     } finally {
       setLoading(false);
       setInitialLoadComplete(true);
@@ -63,6 +61,7 @@ function FavoritesPage() {
   }, []);
 
   const handleClearAllFavorites = () => {
+
     if (window.confirm("Are you sure you want to clear all favorite movies?")) {
       localStorage.removeItem('favoriteMovieIds');
       setFavoriteMovies([]);
@@ -99,7 +98,6 @@ function FavoritesPage() {
           <h1 className="text-2xl sm:text-3xl font-bold whitespace-nowrap overflow-hidden text-ellipsis">My Favorite Movies</h1>
         </div>
 
-        {/* Clear All Favorites Button */}
         {favoriteMovies.length > 0 && (
           <button
             onClick={handleClearAllFavorites}
@@ -116,7 +114,7 @@ function FavoritesPage() {
 
       {favoriteMovies.length === 0 ? (
         <p className="text-gray-400 text-center text-xl mt-10">
-          You haven't saved any favorite movies yet.
+          You haven&apos;t saved any favorite movies yet.
           <br />Go back to the <Link href="/" className="text-blue-400 hover:underline">homepage</Link> to add some!
         </p>
       ) : (

@@ -1,25 +1,23 @@
-// components/Navbar.tsx
-import React from "react";
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import SearchInput from "./SearchInput";
 import GenreFilter from "./GenreFilter";
 import { HeartIcon, HomeIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/router"; // Import useRouter
 
 interface NavbarProps {
-  currentGenre?: string | null; 
+  currentGenre?: string | null;
 }
 
-function Navbar({ currentGenre }: NavbarProps) { 
+function Navbar({ currentGenre }: NavbarProps) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const navbarRef = useRef<HTMLElement>(null);
-  const router = useRouter(); 
+  const router = useRouter();
 
- 
   const currentGenreFromUrl = (router.query.genre as string) || (router.query.term as string) || null;
-
 
   const availableGenres = [
     "Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Drama",
@@ -45,9 +43,9 @@ function Navbar({ currentGenre }: NavbarProps) {
   }, [isFilterOpen, isSearchOpen]);
 
   const handleGenreLinkClick = (genre: string, event: React.MouseEvent) => {
-    event.preventDefault(); 
+    event.preventDefault();
     if (genre === '') {
-      router.push('/'); 
+      router.push('/');
     } else {
       router.push(`/search/${encodeURIComponent(genre)}`);
     }
@@ -58,7 +56,7 @@ function Navbar({ currentGenre }: NavbarProps) {
     <nav
       ref={navbarRef}
       className={`sticky top-0 z-50 bg-gray-900 shadow-xl px-4 md:px-10
-                    transition-all duration-300 ease-in-out overflow-hidden`}
+                  transition-all duration-300 ease-in-out overflow-hidden`}
       style={isFilterOpen ? { maxHeight: '300px' } : (isSearchOpen ? { maxHeight: '120px' } : { maxHeight: '68px' })}
     >
       <div className="flex items-center justify-between w-full py-3">
@@ -85,7 +83,7 @@ function Navbar({ currentGenre }: NavbarProps) {
             <MagnifyingGlassIcon className="h-6 w-6" />
           </button>
 
-          {/* Genre Filter - Pass the currentGenre derived from URL to GenreFilter */}
+          {/* Genre Filter */}
           <GenreFilter
             isOpen={isFilterOpen}
             onToggle={() => {
@@ -93,7 +91,7 @@ function Navbar({ currentGenre }: NavbarProps) {
               setIsSearchOpen(false);
             }}
             availableGenres={availableGenres}
-            currentGenre={currentGenreFromUrl || undefined} 
+            currentGenre={currentGenreFromUrl || undefined}
           />
 
           {/* Favorites Link */}

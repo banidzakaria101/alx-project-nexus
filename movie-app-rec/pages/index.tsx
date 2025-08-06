@@ -1,4 +1,3 @@
-// pages/index.tsx
 import { GetServerSideProps } from "next";
 import { Movie } from "@/types";
 import db from "@/lib/astra";
@@ -55,7 +54,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const collection = db.collection<Movie>("mouvie_collection");
 
-    const query: Record<string, any> = {
+    // Corrected: The query is now explicitly typed
+    const query = {
       $vector: { $exists: true },
     };
 
@@ -77,7 +77,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         totalPages,
       },
     };
-  } catch (error) {
+  } catch (error: unknown) { 
     console.error("❌ Error fetching movies for homepage:", error);
     return {
       props: {

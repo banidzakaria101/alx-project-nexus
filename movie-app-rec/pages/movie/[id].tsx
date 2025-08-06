@@ -1,4 +1,3 @@
-// pages/movie/[id].tsx
 import { GetServerSideProps } from "next";
 import db from "@/lib/astra";
 import { Movie, SimilarMovie } from "@/types";
@@ -41,7 +40,10 @@ export default function MovieDetailsPage({
         {movie.Title} ({movie.Year})
       </h1>
 
+      {/* Movie Details Section */}
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8 max-w-4xl mx-auto mb-12 bg-gray-900 p-6 rounded-lg shadow-xl">
+        {/* Left side: Poster and Favorite Button */}
+        {/* CRUCIAL FIX: Make this div 'relative' for absolute positioning of FavoriteButton */}
         <div className="relative w-64 h-auto rounded-lg shadow-lg overflow-hidden flex-shrink-0">
           <img
             src={movie.Poster}
@@ -52,13 +54,14 @@ export default function MovieDetailsPage({
             }}
           />
           {movie && (
+            // CRUCIAL CHANGE: Use 'card' variant and absolute positioning for top-right icon
             <FavoriteButton
               movieId={movie._id}
               onFavoriteChange={handleFavoriteChange}
-              variant="card"
-              className="absolute top-4 right-4 bg-black bg-opacity-50"
-              iconSize="h-7 w-7"
-              padding="p-2"
+              variant="card" // <-- Changed to 'card' for icon-only display
+              className="absolute top-4 right-4 bg-black bg-opacity-50" // <-- Positioning directly on the image
+              iconSize="h-7 w-7" // Larger icon as requested
+              padding="p-2" // Larger padding as requested
             />
           )}
         </div>
