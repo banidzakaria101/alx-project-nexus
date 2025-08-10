@@ -38,11 +38,22 @@ You can dive into any movie's details, then see a whole list of personalized sug
 
 ---
 
-## 🎨 Design & User Experience
+## 🧠 Struggles & Learnings
 
-The entire look, feel, and user journey of CineVerse were carefully crafted in **Figma**. You can explore the full design prototypes, screen mockups, and interaction flows here:
+Building CineVerse was a journey of solving real-world challenges. Here are some of the key struggles and what I learned:
 
-[**View the Figma Design**](**https://www.figma.com/design/uNrQVYD7TUbInDrthpP6XG/movie-recommendation-app?node-id=0-1&t=sHwzePtIz2vQO8aU-1**)  
+* **API & Framework Compatibility:** A recurring challenge was adapting to subtle API differences in the `@datastax/astra-db-ts` library and Next.js's updated `Link` component. This taught me the importance of closely following library documentation and understanding a framework's version-specific best practices.
+* **Data Consistency:** I encountered a persistent issue where vector data was present in the database but not correctly retrieved by the application. Debugging this revealed a critical lesson about ensuring data is consistently structured and that the ingestion process is robust.
+* **Client-Side State:** Making the Favorites list update instantly without a full page reload required a strategic use of client-side state management and callbacks. This was a valuable exercise in building a seamless user experience.
+* **Deployment & Security:** Overcoming GitHub's push protection and Vercel's build failures highlighted the importance of handling environment variables and secrets securely and correctly in production environments.
+
+---
+
+## 📋 Trello Board
+
+You can follow the project's development, tasks, and progress on our Trello board:
+
+[**View the Trello Board**](**https://trello.com/invite/b/6884c8a7816e308aa522a6da/ATTIa5a22c504cfc462c10850ca979fe335b842DFF7A/movie-recommendation**)
 
 
 ---
@@ -51,16 +62,16 @@ The entire look, feel, and user journey of CineVerse were carefully crafted in *
 
 CineVerse is built with a powerful and modern stack:
 
-| Feature       | Tech Used                               |
+| Feature       | Tech Used                               |
 | :------------ | :--------------------------------------- |
-| **Framework** | Next.js 15 (Pages Router) + React 19     |
-| **Language**  | TypeScript                               |
-| **Styling**   | Tailwind CSS                             |
-| **Database**  | Astra DB (with Vector Search capabilities) |
-| **AI Embeddings** | NVIDIA (for vector search)             |
+| **Framework** | Next.js 15 (Pages Router) + React 19     |
+| **Language**  | TypeScript                               |
+| **Styling**   | Tailwind CSS                             |
+| **Database**  | Astra DB (with Vector Search capabilities) |
+| **AI Embeddings** | NVIDIA (for vector search)             |
 | **Data Access** | REST API, `@datastax/astra-db-ts` library |
-| **Local Data** | Browser Local Storage (for favorites)     |
-| **Deployment**| (Link heare)       |
+| **Local Data** | Browser Local Storage (for favorites)     |
+| **Deployment**| (Link heare)       |
 
 ---
 
@@ -78,10 +89,9 @@ Want to run CineVerse on your machine? Follow these simple steps:
 
 1.  **Clone the Repository:**
     ```bash
-    git clone [https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git)
-    cd YOUR_REPO_NAME
+    git clone [https://https://github.com/banidzakaria101/alx-project-nexus.git]
+    cd alx-project-nexus
     ```
-    *(Replace `YOUR_USERNAME` and `YOUR_REPO_NAME` with your actual GitHub details)*
 
 2.  **Install Dependencies:**
     ```bash
