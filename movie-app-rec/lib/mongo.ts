@@ -34,4 +34,9 @@ export async function getDb(): Promise<Db> {
   return client.db(process.env.MONGODB_DB_NAME || "movieapp");
 }
 
+const client = new MongoClient(uri, {
+  serverSelectionTimeoutMS: 5000, // fail fast instead of hanging
+  tls: true,
+});
+
 export default clientPromise;
