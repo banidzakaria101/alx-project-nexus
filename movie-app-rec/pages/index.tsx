@@ -1,11 +1,10 @@
 import { GetServerSideProps } from "next";
 import { Movie } from "@/types";
-import db from "@/lib/astra";
+import { getDb } from "@/lib/mongo";
 import Link from "next/link";
 import AnimatedMovieGrid from "@/components/AnimatedMovieGrid";
 
 const MOVIES_PER_PAGE = 25;
-const MAX_COUNT_LIMIT = 1000;
 
 type Props = {
   movies: Movie[];
@@ -19,14 +18,13 @@ export default function Home({ movies, page, totalPages }: Props) {
       <h1 className="text-3xl font-bold mb-8 text-center sr-only">🎬 Movie Explorer</h1>
 
       <div className="mx-auto max-w-screen-2xl px-4">
-        <AnimatedMovieGrid movies={movies} uniqueKey={page} /> 
+        <AnimatedMovieGrid movies={movies} uniqueKey={page} />
       </div>
 
       <div className="flex flex-wrap items-center justify-center gap-2 mt-12">
         {Array.from({ length: totalPages }).map((_, i) => {
           const pageNum = i + 1;
           const isActive = page === pageNum;
-
           const paginationHref = `/?page=${pageNum}`;
 
           return (
@@ -52,32 +50,31 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const skip = (page - 1) * MOVIES_PER_PAGE;
 
   try {
-    const collection = db.collection<Movie>("mouvie_collection");
+    const db = await getDb();
+    const collection = db.collection<Movie>("movies");
 
-    // Corrected: The query is now explicitly typed
-    const query = {
-      $vector: { $exists: true },
-    };
+    const [movies, totalCount] = await Promise.all([
+      collection
+        .find({})
+        .sort({ Title: 1 })
+        .skip(skip)
+        .limit(MOVIES_PER_PAGE)
+        .toArray(),
+      collection.countDocuments({}),
+    ]);
 
-    const results = await collection
-      .find(query, {
-        sort: { Title: 1 },
-        limit: MOVIES_PER_PAGE,
-      })
-      .skip(skip)
-      .toArray();
-
-    const totalCount = await collection.countDocuments(query, MAX_COUNT_LIMIT);
     const totalPages = Math.ceil(totalCount / MOVIES_PER_PAGE);
 
     return {
       props: {
-        movies: results,
+        // Mongo's ObjectId and other non-plain fields need to be
+        // serialized before passing to the page as props.
+        movies: JSON.parse(JSON.stringify(movies)),
         page,
         totalPages,
       },
     };
-  } catch (error: unknown) { 
+  } catch (error: unknown) {
     console.error("❌ Error fetching movies for homepage:", error);
     return {
       props: {

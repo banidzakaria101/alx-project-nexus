@@ -1,27 +1,22 @@
-import { DataAPIClient } from "@datastax/astra-db-ts";
-import 'dotenv/config'; 
+// import { DataAPIClient } from "@datastax/astra-db-ts";
 
-let db: ReturnType<DataAPIClient["db"]>;
+// const endpoint = process.env.ASTRA_DB_API_ENDPOINT;
+// const token = process.env.ASTRA_DB_APPLICATION_TOKEN;
+// const keyspace = process.env.ASTRA_DB_KEYSPACE || "default_keyspace";
 
-if (typeof window === "undefined") {
-  const {
-    ASTRA_DB_APPLICATION_TOKEN,
-    ASTRA_DB_API_ENDPOINT,
-  } = process.env;
+// if (!endpoint) {
+//   throw new Error("Missing ASTRA_DB_API_ENDPOINT");
+// }
 
-  if (!ASTRA_DB_APPLICATION_TOKEN || !ASTRA_DB_API_ENDPOINT) {
-    throw new Error("❌ Missing Astra credentials. Make sure they are defined in .env.local");
-  }
+// if (!token) {
+//   throw new Error("Missing ASTRA_DB_APPLICATION_TOKEN");
+// }
 
-  const client = new DataAPIClient(ASTRA_DB_APPLICATION_TOKEN, {
-    httpOptions: {
-      client: "fetch",
-    },
-  });
+// const client = new DataAPIClient();
 
-  db = client.db(ASTRA_DB_API_ENDPOINT);
+// const db = client.db(endpoint, {
+//   token,
+//   keyspace,
+// });
 
-  console.log("✅ Connected to Astra DB");
-}
-
-export default db!;
+// export default db;

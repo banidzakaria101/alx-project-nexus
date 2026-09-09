@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next";
-import db from "@/lib/astra";
+import { getDb } from "@/lib/mongo";
 import { Movie, SimilarMovie } from "@/types";
 import FavoriteButton from "@/components/FavoriteButton";
 import AnimatedMovieGrid from "@/components/AnimatedMovieGrid";
@@ -42,8 +42,6 @@ export default function MovieDetailsPage({
 
       {/* Movie Details Section */}
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8 max-w-4xl mx-auto mb-12 bg-gray-900 p-6 rounded-lg shadow-xl">
-        {/* Left side: Poster and Favorite Button */}
-        {/* CRUCIAL FIX: Make this div 'relative' for absolute positioning of FavoriteButton */}
         <div className="relative w-64 h-auto rounded-lg shadow-lg overflow-hidden flex-shrink-0">
           <img
             src={movie.Poster}
@@ -54,14 +52,13 @@ export default function MovieDetailsPage({
             }}
           />
           {movie && (
-            // CRUCIAL CHANGE: Use 'card' variant and absolute positioning for top-right icon
             <FavoriteButton
               movieId={movie._id}
               onFavoriteChange={handleFavoriteChange}
-              variant="card" // <-- Changed to 'card' for icon-only display
-              className="absolute top-4 right-4 bg-black bg-opacity-50" // <-- Positioning directly on the image
-              iconSize="h-7 w-7" // Larger icon as requested
-              padding="p-2" // Larger padding as requested
+              variant="card"
+              className="absolute top-4 right-4 bg-black bg-opacity-50"
+              iconSize="h-7 w-7"
+              padding="p-2"
             />
           )}
         </div>
@@ -145,15 +142,17 @@ export default function MovieDetailsPage({
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { id, title } = context.params as { id: string; title?: string };
-
-  const collection = db.collection<Movie>("mouvie_collection");
-  let movie: Movie | null = null;
-  let similarMovies: SimilarMovie[] = [];
+  const { id } = context.params as { id: string; title?: string };
 
   console.log(`--- Movie Details Page - ID: ${id} ---`);
 
+  let movie: Movie | null = null;
+  let similarMovies: SimilarMovie[] = [];
+
   try {
+    const db = await getDb();
+    const collection = db.collection<Movie>("movies");
+
     const movieDoc = (await collection.findOne({ _id: id })) as Movie | null;
 
     if (!movieDoc) {
@@ -163,38 +162,28 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     movie = movieDoc;
     console.log(`Fetched movie title: ${movie.Title}`);
 
-    const recommendationTerm = movie.Plot || movie.Title || title;
+    // NOTE: The previous Astra version used vector similarity search
+    // ($vectorize) to find similar movies. MongoDB Atlas's free tier
+    // doesn't have Astra's built-in auto-embedding, so this is replaced
+    // with a same-genre lookup instead. Any of the movie's genres
+    // (Genre is often a comma-separated string like "Crime, Drama")
+    // will match.
+    if (movie.Genre) {
+      const genres = movie.Genre.split(",").map((g) => g.trim());
 
-    if (recommendationTerm) {
-      console.log(
-        `Performing vector search using term: "${recommendationTerm}"`
-      );
       similarMovies = (await collection
-        .find(
-          {},
-          {
-            sort: {
-              $vectorize: recommendationTerm,
-            },
-            limit: 11,
-            includeSimilarity: true,
-          }
-        )
-        .toArray()) as SimilarMovie[];
+        .find({
+          _id: { $ne: movie._id },
+          Genre: { $regex: genres.join("|"), $options: "i" },
+        })
+        .sort({ imdbRating: -1 })
+        .limit(10)
+        .toArray()) as unknown as SimilarMovie[];
 
-      console.log(
-        `Vector search returned ${similarMovies.length} initial results.`
-      );
-
-      similarMovies = similarMovies
-        .filter((simMovie) => simMovie._id !== movie!._id)
-        .slice(0, 10);
-      console.log(
-        `After filtering, similarMovies length: ${similarMovies.length}`
-      );
+      console.log(`Found ${similarMovies.length} same-genre recommendations.`);
     } else {
       console.warn(
-        `WARN: Skipping vector search for movie ${id} because no valid recommendation term (Plot/Title) found.`
+        `WARN: Skipping recommendations for movie ${id} because it has no Genre.`
       );
     }
   } catch (error) {
@@ -210,8 +199,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   console.log("--- Movie Details Page - End getServerSideProps ---");
   return {
     props: {
-      movie,
-      similarMovies,
+      movie: JSON.parse(JSON.stringify(movie)),
+      similarMovies: JSON.parse(JSON.stringify(similarMovies)),
     },
   };
 };
