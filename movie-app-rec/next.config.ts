@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["m.media-amazon.com"],
   },
+  compiler: {
+    styledComponents: true,
+  },
 };
 
 export default nextConfig;
