@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import db from "@/lib/astra";
+import { getDb } from "@/lib/mongo";
 import { Movie } from "@/types";
 
 export default async function handler(
@@ -22,7 +22,8 @@ export default async function handler(
     }
 
     try {
-      const collection = db.collection<Movie>("mouvie_collection");
+      const db = await getDb();
+      const collection = db.collection<Movie>("movies");
 
       const favoriteMovies = await collection
         .find(
@@ -35,7 +36,7 @@ export default async function handler(
 
       return res.status(200).json(favoriteMovies);
     } catch (error) {
-      console.error("❌ Error fetching favorite movies from Astra DB:", error);
+      console.error("❌ Error fetching favorite movies from MongoDB:", error);
       return res
         .status(500)
         .json({ message: "Internal server error while fetching favorites." });

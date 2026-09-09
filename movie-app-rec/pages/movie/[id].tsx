@@ -162,12 +162,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     movie = movieDoc;
     console.log(`Fetched movie title: ${movie.Title}`);
 
-    // NOTE: The previous Astra version used vector similarity search
-    // ($vectorize) to find similar movies. MongoDB Atlas's free tier
-    // doesn't have Astra's built-in auto-embedding, so this is replaced
-    // with a same-genre lookup instead. Any of the movie's genres
-    // (Genre is often a comma-separated string like "Crime, Drama")
-    // will match.
+   
     if (movie.Genre) {
       const genres = movie.Genre.split(",").map((g) => g.trim());
 
